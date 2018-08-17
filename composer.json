@@ -1,0 +1,20 @@
+{
+  "name": "tomboone/parish_school_locator",
+  "type": "drupal-module",
+  "description": "Find parishes and schools by address, name, and mass time",
+  "keywords": ["Drupal"],
+  "homepage": "https://www.drupal.org/project/diocesan_directory",
+  "minimum-stability": "dev",
+  "extra": {
+    "branch-alias": {
+      "8.x-1.x": "1.x-dev"
+    }
+  },
+  "require": {
+    "drupal/geocoder": "^2.0",
+    "drupal/geolocation": "^2.0",
+    "faithcatholic/diocesan_directory": "^1.0",
+    "faithcatholic/mass_times": "^1.0",
+    "drupal/leaflet": "^1.0"
+  }
+}
