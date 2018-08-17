@@ -1,0 +1,19 @@
+uuid: 2f67ebfa-a1d2-4284-b1cb-826f7a75dd8c
+langcode: en
+status: true
+dependencies:
+  module:
+    - diocesan_directory
+    - geolocation
+id: directory.field_geolocation
+field_name: field_geolocation
+entity_type: directory
+type: geolocation
+settings: {  }
+module: geolocation
+locked: false
+cardinality: 1
+translatable: true
+indexes: {  }
+persist_with_no_fields: false
+custom_storage: false

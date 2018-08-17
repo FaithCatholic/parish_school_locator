@@ -1,0 +1,39 @@
+<?php
+
+/**
+ * @file
+ * Contains parish_school_locator.module.
+ */
+
+use Drupal\Core\Routing\RouteMatchInterface;
+
+/**
+ * Implements hook_help().
+ */
+function parish_school_locator_help($route_name, RouteMatchInterface $route_match) {
+  switch ($route_name) {
+    // Main module help for the parish_school_locator module.
+    case 'help.page.parish_school_locator':
+      $output = '';
+      $output .= '<h3>' . t('About') . '</h3>';
+      $output .= '<p>' . t('Find parishes and schools by address, name, and mass time') . '</p>';
+      return $output;
+
+    default:
+  }
+}
+
+/**
+ * Implements hook_theme().
+ */
+function parish_school_locator_theme() {
+  return [
+    'parish_school_locator' => [
+      'render element' => 'children',
+    ],
+  ];
+}
+
+function parish_school_locator_preprocess_views_view_field(&$variables) {
+    ksm($variables['field']);
+}

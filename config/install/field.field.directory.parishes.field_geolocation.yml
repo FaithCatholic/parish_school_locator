@@ -1,0 +1,39 @@
+uuid: 01bf48c9-a101-446d-b9db-baa5ae3e15ca
+langcode: en
+status: true
+dependencies:
+  config:
+    - diocesan_directory.directory_type.parishes
+    - field.storage.directory.field_geolocation
+  module:
+    - geocoder_field
+    - geolocation
+third_party_settings:
+  geocoder_field:
+    method: source
+    weight: 0
+    geocode_field: field_primary_address
+    reverse_geocode_field: field_geofield
+    hidden: true
+    disabled: false
+    plugins:
+      - arcgisonline
+      - googlemaps
+    dumper: geolocation
+    delta_handling: s_to_m
+    failure:
+      handling: preserve
+      status_message: true
+      log: true
+id: directory.parishes.field_geolocation
+field_name: field_geolocation
+entity_type: directory
+bundle: parishes
+label: Geolocation
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: geolocation

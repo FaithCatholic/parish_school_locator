@@ -1,0 +1,39 @@
+uuid: 6976ec01-08be-49f2-bc8d-fe6ac6675602
+langcode: en
+status: true
+dependencies:
+  config:
+    - diocesan_directory.directory_type.schools
+    - field.storage.directory.field_geolocation
+  module:
+    - geocoder_field
+    - geolocation
+third_party_settings:
+  geocoder_field:
+    method: source
+    weight: 0
+    geocode_field: field_primary_address
+    reverse_geocode_field: field_geofield
+    hidden: false
+    disabled: false
+    plugins:
+      - arcgisonline
+      - googlemaps
+    dumper: geolocation
+    delta_handling: s_to_m
+    failure:
+      handling: preserve
+      status_message: true
+      log: true
+id: directory.schools.field_geolocation
+field_name: field_geolocation
+entity_type: directory
+bundle: schools
+label: Geolocation
+description: ''
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: geolocation
