@@ -6,6 +6,7 @@
  */
 
 use Drupal\Core\Routing\RouteMatchInterface;
+use Drupal\leaflet\LeafletService;
 
 /**
  * Implements hook_help().
@@ -34,6 +35,23 @@ function parish_school_locator_theme() {
   ];
 }
 
-function parish_school_locator_preprocess_views_view_field(&$variables) {
-    ksm($variables['field']);
-}
+/*function parish_school_locator_preprocess_views_view_field__field_geolocation(&$variables) {
+    $lat = $variables['row']->_entity->get('field_geolocation')->getValue()[0]['lat'];
+    $lng = $variables['row']->_entity->get('field_geolocation')->getValue()[0]['lng'];
+
+    $features = [
+        [
+            'type' => 'point',
+            'lat' => $lat,
+            'lon' => $lng,
+        ],
+    ];
+
+    $settings['leaflet_map'] = 'OSM Mapnik';
+
+    $map = \Drupal::service('leaflet.service')->leafletMapGetInfo($settings['leaflet_map']);
+
+    $result = \Drupal::service('leaflet.service')->leafletRenderMap($map, $features, $height = '200px');
+
+    $variables['output'] = $result;
+}*/

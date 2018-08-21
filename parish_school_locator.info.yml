@@ -5,6 +5,7 @@ core: 8.x
 package: 'Custom'
 dependencies:
   - geocoder_field
+  - geocoder_address
   - geolocation
   - diocesan_directory
   - leaflet
