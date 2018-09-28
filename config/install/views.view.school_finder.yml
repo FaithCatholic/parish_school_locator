@@ -3,12 +3,16 @@ langcode: en
 status: true
 dependencies:
   config:
-    - diocesan_directory.directory_type.schools
+  - diocesan_directory.directory_type.schools
+  - field.storage.directory.field_geolocation
+  - field.storage.directory.field_primary_address
   module:
-    - diocesan_directory
-    - geolocation
+  - address
+  - diocesan_directory
+  - geolocation
+  - parish_school_locator
 _core:
-  default_config_hash: 8jnmmYjiyo2ZS_o_X7C8V57VfRJGO0qRVH5LvxJHIqM
+  default_config_hash: GEP9NYkToPSi6hg6uY59dlvqnuKFPkHRzy6I4yAyFBM
 id: school_finder
 label: 'School Finder'
 module: views
@@ -71,6 +75,68 @@ display:
       row:
         type: fields
       fields:
+        field_geolocation:
+          id: field_geolocation
+          table: directory__field_geolocation
+          field: field_geolocation
+          relationship: none
+          group_type: group
+          admin_label: ''
+          label: Map
+          exclude: false
+          alter:
+            alter_text: false
+            text: ''
+            make_link: false
+            path: ''
+            absolute: false
+            external: false
+            replace_spaces: false
+            path_case: none
+            trim_whitespace: false
+            alt: ''
+            rel: ''
+            link_class: ''
+            prefix: ''
+            suffix: ''
+            target: ''
+            nl2br: false
+            max_length: 0
+            word_boundary: true
+            ellipsis: true
+            more_link: false
+            more_link_text: ''
+            more_link_path: ''
+            strip_tags: false
+            trim: false
+            preserve_tags: ''
+            html: false
+          element_type: ''
+          element_class: ''
+          element_label_type: ''
+          element_label_class: ''
+          element_label_colon: true
+          element_wrapper_type: ''
+          element_wrapper_class: ''
+          element_default_classes: true
+          empty: ''
+          hide_empty: false
+          empty_zero: false
+          hide_alter_empty: true
+          click_sort_column: ''
+          type: leaflet_geolocation_field_formatter
+          settings: {  }
+          group_column: ''
+          group_columns: {  }
+          group_rows: true
+          delta_limit: 0
+          delta_offset: 0
+          delta_reversed: false
+          delta_first_last: false
+          multi_type: separator
+          separator: ', '
+          field_api_classes: false
+          plugin_id: geolocation_field
         name:
           table: directory_field_data
           field: name
@@ -135,6 +201,68 @@ display:
           multi_type: separator
           separator: ', '
           field_api_classes: false
+        field_primary_address:
+          id: field_primary_address
+          table: directory__field_primary_address
+          field: field_primary_address
+          relationship: none
+          group_type: group
+          admin_label: ''
+          label: Address
+          exclude: false
+          alter:
+            alter_text: false
+            text: ''
+            make_link: false
+            path: ''
+            absolute: false
+            external: false
+            replace_spaces: false
+            path_case: none
+            trim_whitespace: false
+            alt: ''
+            rel: ''
+            link_class: ''
+            prefix: ''
+            suffix: ''
+            target: ''
+            nl2br: false
+            max_length: 0
+            word_boundary: true
+            ellipsis: true
+            more_link: false
+            more_link_text: ''
+            more_link_path: ''
+            strip_tags: false
+            trim: false
+            preserve_tags: ''
+            html: false
+          element_type: ''
+          element_class: ''
+          element_label_type: ''
+          element_label_class: ''
+          element_label_colon: true
+          element_wrapper_type: ''
+          element_wrapper_class: ''
+          element_default_classes: true
+          empty: ''
+          hide_empty: false
+          empty_zero: false
+          hide_alter_empty: true
+          click_sort_column: langcode
+          type: address_default
+          settings: {  }
+          group_column: ''
+          group_columns: {  }
+          group_rows: true
+          delta_limit: 0
+          delta_offset: 0
+          delta_reversed: false
+          delta_first_last: false
+          multi_type: separator
+          separator: ', '
+          field_api_classes: false
+          plugin_id: field
         field_geolocation_proximity:
           proximity_source: user_input
           proximity_lat: ''
@@ -276,10 +404,12 @@ display:
     cache_metadata:
       max-age: -1
       contexts:
-        - 'languages:language_content'
-        - 'languages:language_interface'
-        - url.query_args
-      tags: {  }
+      - 'languages:language_content'
+      - 'languages:language_interface'
+      - url.query_args
+      tags:
+      - 'config:field.storage.directory.field_geolocation'
+      - 'config:field.storage.directory.field_primary_address'
   page_1:
     display_plugin: page
     id: page_1
@@ -288,11 +418,13 @@ display:
     display_options:
       display_extenders:
         views_merge_rows: {  }
-      path: settings-finder
+      path: school-finder
     cache_metadata:
       max-age: -1
       contexts:
-        - 'languages:language_content'
-        - 'languages:language_interface'
-        - url.query_args
-      tags: {  }
+      - 'languages:language_content'
+      - 'languages:language_interface'
+      - url.query_args
+      tags:
+      - 'config:field.storage.directory.field_geolocation'
+      - 'config:field.storage.directory.field_primary_address'
