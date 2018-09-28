@@ -6,7 +6,7 @@
  */
 
 use Drupal\Core\Routing\RouteMatchInterface;
-use Drupal\leaflet\LeafletService;
+use Drupal\Core\Form\FormStateInterface;
 
 /**
  * Implements hook_help().
@@ -35,23 +35,50 @@ function parish_school_locator_theme() {
   ];
 }
 
-/*function parish_school_locator_preprocess_views_view_field__field_geolocation(&$variables) {
-    $lat = $variables['row']->_entity->get('field_geolocation')->getValue()[0]['lat'];
-    $lng = $variables['row']->_entity->get('field_geolocation')->getValue()[0]['lng'];
+/**
+ * Implements hook_form_alter()
+ */
+function parish_school_locator_form_alter(&$form, FormStateInterface $form_state, $form_id) {
 
-    $features = [
-        [
-            'type' => 'point',
-            'lat' => $lat,
-            'lon' => $lng,
-        ],
-    ];
+  // Parish finder exposed view form
+  if ($form['#id'] == 'views-exposed-form-parish-finder-page-1') {
 
-    $settings['leaflet_map'] = 'OSM Mapnik';
+    // Hide distance filter
+    $form['field_geolocation_proximity']['#type'] = 'hidden';
 
-    $map = \Drupal::service('leaflet.service')->leafletMapGetInfo($settings['leaflet_map']);
+    // Hide mass start time filter so we can replace it with a select list
+    $form['field_service_start_time_value']['#type'] = 'hidden';
 
-    $result = \Drupal::service('leaflet.service')->leafletRenderMap($map, $features, $height = '200px');
+    // Set select list time options to output of custom function
+    $options = parish_school_locator_hms_selector();
 
-    $variables['output'] = $result;
-}*/
+    // Create custom field for selecting mass time
+    $form['field_service_start_time_value_hms']['#title'] = t('Mass Time');
+    $form['field_service_start_time_value_hms']['#type'] = 'select';
+    $form['field_service_start_time_value_hms']['#options'] = $options;
+    $form['field_service_start_time_value_hms']['#default_value'] = '';
+
+    // Add custom submit handler to populate mass time filter with custom field selection
+    $form['#validate'][] = 'parish_school_locator_custom_validate';
+  }
+}
+
+function parish_school_locator_hms_selector() {
+  $times = \Drupal::database();
+  $query = $times->query("SELECT DISTINCT field_service_start_time_value FROM mass_times__field_service_start_time ORDER BY field_service_start_time_value");
+  $results = $query->fetchCol();
+  $output = array(
+    '' => '- Any -'
+  );
+  foreach ($results as $record) {
+    $label = gmdate('g:i a', (int)$record);
+    $output[$record] = $label;
+  }
+
+  return $output;
+}
+
+function parish_school_locator_custom_validate(array $form, FormStateInterface $form_state) {
+  $hms = $form_state->getValue('field_service_start_time_value_hms');
+  $form_state->setValue('field_service_start_time_value', $hms);
+}
