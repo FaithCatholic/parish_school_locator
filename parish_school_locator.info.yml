@@ -9,4 +9,3 @@ dependencies:
   - geolocation
   - diocesan_directory
   - leaflet
-  - views_field_view
