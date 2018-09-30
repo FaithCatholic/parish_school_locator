@@ -1,0 +1,22 @@
+<?php
+
+/**
+ * Re-save all Directory content.
+ */
+function parish_school_locator_install() {
+  // Get an array of all 'directory' entity ids.
+  $directory_eids = \Drupal::entityQuery('directory')
+    ->execute();
+
+  // Load each directory entity.
+  foreach ($directory_eids as $directory) {
+    try {
+      $entity = \Drupal::entityTypeManager()->getStorage('directory')->load($directory);
+      $entity->save(); // Re-save each entity.
+    }
+    catch (Exception $e) {
+    // Log the exception to watchdog.
+    \Drupal::logger('type')->error($e->getMessage());
+    }
+  }
+}

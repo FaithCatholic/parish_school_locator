@@ -39,46 +39,74 @@ function parish_school_locator_theme() {
  * Implements hook_form_alter()
  */
 function parish_school_locator_form_alter(&$form, FormStateInterface $form_state, $form_id) {
-
   // Parish finder exposed view form
-  if ($form['#id'] == 'views-exposed-form-parish-finder-page-1') {
+  if (   $form['#id'] == 'views-exposed-form-parish-finder-page-1'
+      || $form['#id'] == 'views-exposed-form-parish-finder-page-2'
+      || $form['#id'] == 'views-exposed-form-school-finder-page-1'
+      || $form['#id'] == 'views-exposed-form-school-finder-page-2') {
 
-    // Hide distance filter
+    // Hide proximity filter fields
     $form['field_geolocation_proximity']['#type'] = 'hidden';
+    $form['field_geolocation_proximity-lat']['#type'] = 'hidden';
+    $form['field_geolocation_proximity-lng']['#type'] = 'hidden';
 
-    // Hide mass start time filter so we can replace it with a select list
-    $form['field_service_start_time_value']['#type'] = 'hidden';
+    // Create custom address field for geocoding
+    $form['field_geocoded_address']['#type'] = 'textfield';
+    $form['field_geocoded_address']['#title'] = t('Nearest to');
+    $form['field_geocoded_address']['#attributes']['placeholder'] = t('Enter an address, city & state, or zip code');
 
-    // Set select list time options to output of custom function
-    $options = parish_school_locator_hms_selector();
-
-    // Create custom field for selecting mass time
-    $form['field_service_start_time_value_hms']['#title'] = t('Mass Time');
-    $form['field_service_start_time_value_hms']['#type'] = 'select';
-    $form['field_service_start_time_value_hms']['#options'] = $options;
-    $form['field_service_start_time_value_hms']['#default_value'] = '';
-
-    // Add custom submit handler to populate mass time filter with custom field selection
-    $form['#validate'][] = 'parish_school_locator_custom_validate';
+    // Add a custom form validator for geocoding
+    $form['#validate'][] = '_parish_school_locator_validate';
   }
 }
 
-function parish_school_locator_hms_selector() {
-  $times = \Drupal::database();
-  $query = $times->query("SELECT DISTINCT field_service_start_time_value FROM mass_times__field_service_start_time ORDER BY field_service_start_time_value");
-  $results = $query->fetchCol();
-  $output = array(
-    '' => '- Any -'
-  );
-  foreach ($results as $record) {
-    $label = gmdate('g:i a', (int)$record);
-    $output[$record] = $label;
+/**
+ * Custom form validator for exposed filter
+ */
+function _parish_school_locator_validate(array &$form, FormStateInterface $form_state) {
+
+  // Get address entered by user
+  $address = $form_state->getValue('field_geocoded_address');
+
+  // Check if address isn't empty
+  if ($address != '') {
+    $geolocation = _mapbox_geocode($address); // geocode the address
+
+    // Set latitude
+    $form_state->setValue('field_geolocation_proximity-lat', $geolocation[1]);
+
+    // Set longitude
+    $form_state->setValue('field_geolocation_proximity-lng', $geolocation[0]);
+  }
+}
+
+/**
+ * Geocode address via Mapbox API
+ */
+function _mapbox_geocode($address) {
+
+  //Set Mapbox API endpoint
+  $endpoint = 'https://api.mapbox.com/geocoding/v5/mapbox.places/';
+
+  // Set Mapbox API
+  $token = 'pk.eyJ1IjoiZmFpdGhjYXRob2xpYyIsImEiOiJjamx3OGo5OGswNzM1M2txaWtqenIyYmpwIn0.TwloIdfSB7Q7V3Jv516C0A';
+
+  // Assemble request URL
+  $url = $endpoint . $address . '.json?access_token=' . $token;
+
+  // Initialize Guzzle HTTP client
+  $client = \Drupal::httpClient();
+
+  try {
+    $request = $client->get($url);  // make API call
+    $response = $request->getBody();  // get API response
+    $output = (array) json_decode($response);  // convert JSON to array
+    $output = (array) $output['features'][0]; // get features array
+    $output = $output['center']; // get lat/lng center
+  }
+  catch (RequestException $e) {
+    watchdog_exception('parish_school_locator', $e->getMessage());
   }
 
   return $output;
-}
-
-function parish_school_locator_custom_validate(array $form, FormStateInterface $form_state) {
-  $hms = $form_state->getValue('field_service_start_time_value_hms');
-  $form_state->setValue('field_service_start_time_value', $hms);
 }

@@ -1,16 +1,19 @@
-uuid: adfa19bb-8d47-4501-9189-6d59d078c287
+uuid: 71f70f8b-9f47-474e-aba6-399d0902e194
 langcode: en
 status: true
 dependencies:
   config:
-  - diocesan_directory.directory_type.schools
-  - field.storage.directory.field_geolocation
-  - field.storage.directory.field_primary_address
+    - diocesan_directory.directory_type.schools
+    - field.storage.directory.field_geolocation
+    - field.storage.directory.field_phone
+    - field.storage.directory.field_primary_address
+    - field.storage.directory.field_website
   module:
-  - address
-  - diocesan_directory
-  - geolocation
-  - parish_school_locator
+    - address
+    - diocesan_directory
+    - geolocation
+    - link
+    - parish_school_locator
 _core:
   default_config_hash: GEP9NYkToPSi6hg6uY59dlvqnuKFPkHRzy6I4yAyFBM
 id: school_finder
@@ -45,8 +48,8 @@ display:
       exposed_form:
         type: basic
         options:
-          submit_button: Apply
-          reset_button: false
+          submit_button: Find
+          reset_button: true
           reset_button_label: Reset
           exposed_sorts_label: 'Sort by'
           expose_sort_order: true
@@ -71,84 +74,23 @@ display:
             previous: ‹‹
             next: ››
       style:
-        type: table
+        type: default
+        options:
+          grouping: {  }
+          row_class: ''
+          default_row_class: true
       row:
         type: fields
       fields:
-        field_geolocation:
-          id: field_geolocation
-          table: directory__field_geolocation
-          field: field_geolocation
-          relationship: none
-          group_type: group
-          admin_label: ''
-          label: Map
-          exclude: false
-          alter:
-            alter_text: false
-            text: ''
-            make_link: false
-            path: ''
-            absolute: false
-            external: false
-            replace_spaces: false
-            path_case: none
-            trim_whitespace: false
-            alt: ''
-            rel: ''
-            link_class: ''
-            prefix: ''
-            suffix: ''
-            target: ''
-            nl2br: false
-            max_length: 0
-            word_boundary: true
-            ellipsis: true
-            more_link: false
-            more_link_text: ''
-            more_link_path: ''
-            strip_tags: false
-            trim: false
-            preserve_tags: ''
-            html: false
-          element_type: ''
-          element_class: ''
-          element_label_type: ''
-          element_label_class: ''
-          element_label_colon: true
-          element_wrapper_type: ''
-          element_wrapper_class: ''
-          element_default_classes: true
-          empty: ''
-          hide_empty: false
-          empty_zero: false
-          hide_alter_empty: true
-          click_sort_column: ''
-          type: leaflet_geolocation_field_formatter
-          settings: {  }
-          group_column: ''
-          group_columns: {  }
-          group_rows: true
-          delta_limit: 0
-          delta_offset: 0
-          delta_reversed: false
-          delta_first_last: false
-          multi_type: separator
-          separator: ', '
-          field_api_classes: false
-          plugin_id: geolocation_field
         name:
+          id: name
           table: directory_field_data
           field: name
-          id: name
-          entity_type: null
-          entity_field: name
-          plugin_id: field
           relationship: none
           group_type: group
           admin_label: ''
-          label: Name
-          exclude: false
+          label: ''
+          exclude: true
           alter:
             alter_text: false
             text: ''
@@ -180,8 +122,8 @@ display:
           element_class: ''
           element_label_type: ''
           element_label_class: ''
-          element_label_colon: true
-          element_wrapper_type: ''
+          element_label_colon: false
+          element_wrapper_type: h2
           element_wrapper_class: ''
           element_default_classes: true
           empty: ''
@@ -190,7 +132,8 @@ display:
           hide_alter_empty: true
           click_sort_column: value
           type: string
-          settings: {  }
+          settings:
+            link_to_entity: true
           group_column: value
           group_columns: {  }
           group_rows: true
@@ -201,6 +144,9 @@ display:
           multi_type: separator
           separator: ', '
           field_api_classes: false
+          entity_type: null
+          entity_field: name
+          plugin_id: field
         field_primary_address:
           id: field_primary_address
           table: directory__field_primary_address
@@ -208,8 +154,8 @@ display:
           relationship: none
           group_type: group
           admin_label: ''
-          label: Address
-          exclude: false
+          label: ''
+          exclude: true
           alter:
             alter_text: false
             text: ''
@@ -241,7 +187,7 @@ display:
           element_class: ''
           element_label_type: ''
           element_label_class: ''
-          element_label_colon: true
+          element_label_colon: false
           element_wrapper_type: ''
           element_wrapper_class: ''
           element_default_classes: true
@@ -252,7 +198,7 @@ display:
           click_sort_column: langcode
           type: address_default
           settings: {  }
-          group_column: ''
+          group_column: entity_id
           group_columns: {  }
           group_rows: true
           delta_limit: 0
@@ -263,12 +209,195 @@ display:
           separator: ', '
           field_api_classes: false
           plugin_id: field
+        field_phone:
+          id: field_phone
+          table: directory__field_phone
+          field: field_phone
+          relationship: none
+          group_type: group
+          admin_label: ''
+          label: ''
+          exclude: true
+          alter:
+            alter_text: false
+            text: ''
+            make_link: false
+            path: ''
+            absolute: false
+            external: false
+            replace_spaces: false
+            path_case: none
+            trim_whitespace: false
+            alt: ''
+            rel: ''
+            link_class: ''
+            prefix: ''
+            suffix: ''
+            target: ''
+            nl2br: false
+            max_length: 0
+            word_boundary: true
+            ellipsis: true
+            more_link: false
+            more_link_text: ''
+            more_link_path: ''
+            strip_tags: false
+            trim: false
+            preserve_tags: ''
+            html: false
+          element_type: ''
+          element_class: ''
+          element_label_type: ''
+          element_label_class: ''
+          element_label_colon: false
+          element_wrapper_type: ''
+          element_wrapper_class: ''
+          element_default_classes: true
+          empty: ''
+          hide_empty: false
+          empty_zero: false
+          hide_alter_empty: true
+          click_sort_column: value
+          type: string
+          settings:
+            link_to_entity: false
+          group_column: value
+          group_columns: {  }
+          group_rows: true
+          delta_limit: 0
+          delta_offset: 0
+          delta_reversed: false
+          delta_first_last: false
+          multi_type: separator
+          separator: ', '
+          field_api_classes: false
+          plugin_id: field
+        field_website:
+          id: field_website
+          table: directory__field_website
+          field: field_website
+          relationship: none
+          group_type: group
+          admin_label: ''
+          label: ''
+          exclude: true
+          alter:
+            alter_text: false
+            text: ''
+            make_link: false
+            path: ''
+            absolute: false
+            external: false
+            replace_spaces: false
+            path_case: none
+            trim_whitespace: false
+            alt: ''
+            rel: ''
+            link_class: ''
+            prefix: ''
+            suffix: ''
+            target: ''
+            nl2br: false
+            max_length: 0
+            word_boundary: true
+            ellipsis: true
+            more_link: false
+            more_link_text: ''
+            more_link_path: ''
+            strip_tags: false
+            trim: false
+            preserve_tags: ''
+            html: false
+          element_type: ''
+          element_class: ''
+          element_label_type: ''
+          element_label_class: ''
+          element_label_colon: false
+          element_wrapper_type: ''
+          element_wrapper_class: ''
+          element_default_classes: true
+          empty: ''
+          hide_empty: false
+          empty_zero: false
+          hide_alter_empty: true
+          click_sort_column: uri
+          type: link
+          settings:
+            trim_length: 80
+            url_only: false
+            url_plain: false
+            rel: '0'
+            target: '0'
+          group_column: entity_id
+          group_columns: {  }
+          group_rows: true
+          delta_limit: 0
+          delta_offset: 0
+          delta_reversed: false
+          delta_first_last: false
+          multi_type: separator
+          separator: ', '
+          field_api_classes: false
+          plugin_id: field
+        view_directory:
+          id: view_directory
+          table: directory
+          field: view_directory
+          relationship: none
+          group_type: group
+          admin_label: ''
+          label: ''
+          exclude: true
+          alter:
+            alter_text: false
+            text: ''
+            make_link: false
+            path: ''
+            absolute: false
+            external: false
+            replace_spaces: false
+            path_case: none
+            trim_whitespace: false
+            alt: ''
+            rel: ''
+            link_class: ''
+            prefix: ''
+            suffix: ''
+            target: ''
+            nl2br: false
+            max_length: 0
+            word_boundary: true
+            ellipsis: true
+            more_link: false
+            more_link_text: ''
+            more_link_path: ''
+            strip_tags: false
+            trim: false
+            preserve_tags: ''
+            html: false
+          element_type: ''
+          element_class: ''
+          element_label_type: ''
+          element_label_class: ''
+          element_label_colon: false
+          element_wrapper_type: ''
+          element_wrapper_class: ''
+          element_default_classes: true
+          empty: ''
+          hide_empty: false
+          empty_zero: false
+          hide_alter_empty: true
+          text: 'More information...'
+          output_url_as_text: false
+          absolute: false
+          entity_type: directory
+          plugin_id: entity_link
         field_geolocation_proximity:
-          proximity_source: user_input
+          proximity_source: filter
           proximity_lat: ''
           proximity_lng: ''
           proximity_units: mile
-          proximity_filter: ''
+          proximity_filter: field_geolocation_proximity
           proximity_argument: ''
           entity_id_argument: ''
           boundary_filter: ''
@@ -288,7 +417,113 @@ display:
           relationship: none
           group_type: group
           admin_label: ''
-          label: Distance
+          label: ''
+          exclude: true
+          alter:
+            alter_text: false
+            text: ''
+            make_link: false
+            path: ''
+            absolute: false
+            external: false
+            replace_spaces: false
+            path_case: none
+            trim_whitespace: false
+            alt: ''
+            rel: ''
+            link_class: ''
+            prefix: ''
+            suffix: ''
+            target: ''
+            nl2br: false
+            max_length: 0
+            word_boundary: true
+            ellipsis: true
+            more_link: false
+            more_link_text: ''
+            more_link_path: ''
+            strip_tags: false
+            trim: false
+            preserve_tags: ''
+            html: false
+          element_type: ''
+          element_class: ''
+          element_label_type: ''
+          element_label_class: ''
+          element_label_colon: false
+          element_wrapper_type: ''
+          element_wrapper_class: ''
+          element_default_classes: true
+          empty: ''
+          hide_empty: false
+          empty_zero: false
+          hide_alter_empty: true
+          set_precision: true
+          precision: 1
+          decimal: .
+          separator: ','
+          format_plural: false
+          format_plural_string: !!binary MQNAY291bnQ=
+          prefix: ''
+          suffix: ' Mi'
+          plugin_id: geolocation_field_proximity
+        nothing:
+          id: nothing
+          table: views
+          field: nothing
+          relationship: none
+          group_type: group
+          admin_label: 'School Info'
+          label: ''
+          exclude: false
+          alter:
+            alter_text: true
+            text: "<h2 class=\"school-name\">{{ name }}</h2>\n<div class=\"school-address\">{{ field_primary_address }}</div>\n<div class =\"school-phone\">{{ field_phone }}</div>\n<div class=\"school-website\">{{ field_website }}</div>\n<div class=\"school-details\">{{ view_directory }}</div>\n<div class=\"school-proximity\">{{ field_geolocation_proximity }}</div>"
+            make_link: false
+            path: ''
+            absolute: false
+            external: false
+            replace_spaces: false
+            path_case: none
+            trim_whitespace: false
+            alt: ''
+            rel: ''
+            link_class: ''
+            prefix: ''
+            suffix: ''
+            target: ''
+            nl2br: false
+            max_length: 0
+            word_boundary: true
+            ellipsis: true
+            more_link: false
+            more_link_text: ''
+            more_link_path: ''
+            strip_tags: false
+            trim: false
+            preserve_tags: ''
+            html: false
+          element_type: ''
+          element_class: ''
+          element_label_type: ''
+          element_label_class: ''
+          element_label_colon: false
+          element_wrapper_type: ''
+          element_wrapper_class: ''
+          element_default_classes: true
+          empty: ''
+          hide_empty: false
+          empty_zero: false
+          hide_alter_empty: false
+          plugin_id: custom
+        field_geolocation:
+          id: field_geolocation
+          table: directory__field_geolocation
+          field: field_geolocation
+          relationship: none
+          group_type: group
+          admin_label: 'School Map'
+          label: ''
           exclude: false
           alter:
             alter_text: false
@@ -321,7 +556,7 @@ display:
           element_class: ''
           element_label_type: ''
           element_label_class: ''
-          element_label_colon: true
+          element_label_colon: false
           element_wrapper_type: ''
           element_wrapper_class: ''
           element_default_classes: true
@@ -329,15 +564,20 @@ display:
           hide_empty: false
           empty_zero: false
           hide_alter_empty: true
-          set_precision: true
-          precision: 2
-          decimal: .
-          separator: ','
-          format_plural: false
-          format_plural_string: !!binary MQNAY291bnQ=
-          prefix: ''
-          suffix: ' miles'
-          plugin_id: geolocation_field_proximity
+          click_sort_column: ''
+          type: leaflet_geolocation_field_formatter
+          settings: {  }
+          group_column: entity_id
+          group_columns: {  }
+          group_rows: true
+          delta_limit: 0
+          delta_offset: 0
+          delta_reversed: false
+          delta_first_last: false
+          multi_type: separator
+          separator: ', '
+          field_api_classes: false
+          plugin_id: geolocation_field
       filters:
         type:
           id: type
@@ -379,9 +619,73 @@ display:
           entity_type: directory
           entity_field: type
           plugin_id: bundle
+        field_geolocation_proximity:
+          proximity_source: exposed
+          proximity_lat: ''
+          proximity_lng: ''
+          proximity_units: mile
+          proximity_argument: ''
+          entity_id_argument: ''
+          boundary_filter: ''
+          client_location: false
+          id: field_geolocation_proximity
+          table: directory__field_geolocation
+          field: field_geolocation_proximity
+          relationship: none
+          group_type: group
+          admin_label: ''
+          operator: '<'
+          value:
+            min: ''
+            max: ''
+            value: '3000'
+          group: 1
+          exposed: true
+          expose:
+            operator_id: field_geolocation_proximity_op
+            label: 'Nearest to'
+            description: ''
+            use_operator: false
+            operator: field_geolocation_proximity_op
+            identifier: field_geolocation_proximity
+            required: false
+            remember: false
+            multiple: false
+            remember_roles:
+              authenticated: authenticated
+              diocesan_administrator: '0'
+              directory: '0'
+              anonymous: '0'
+              administrator: '0'
+            placeholder: ''
+            min_placeholder: ''
+            max_placeholder: ''
+            input_by_geocoding_widget: 0
+            geocoder_plugin_settings:
+              plugin_id: google_geocoding_api
+              settings:
+                components:
+                  route: ''
+                  locality: ''
+                  administrativeArea: ''
+                  postalCode: ''
+                  country: ''
+          is_grouped: false
+          group_info:
+            label: ''
+            description: ''
+            identifier: ''
+            optional: true
+            widget: select
+            multiple: false
+            remember: false
+            default_group: All
+            default_group_multiple: {  }
+            group_items: {  }
+          plugin_id: geolocation_filter_proximity
       sorts:
         field_geolocation_proximity:
-          proximity_field: ''
+          proximity_field: field_geolocation_proximity
           id: field_geolocation_proximity
           table: directory__field_geolocation
           field: field_geolocation_proximity
@@ -393,7 +697,19 @@ display:
           expose:
             label: 'Proximity (field_geolocation)'
           plugin_id: geolocation_sort_proximity
-      title: 'School Finder'
+        field_name_value:
+          id: field_name_value
+          table: directory__field_name
+          field: field_name_value
+          relationship: none
+          group_type: group
+          admin_label: ''
+          order: ASC
+          exposed: false
+          expose:
+            label: ''
+          plugin_id: standard
+      title: Schools
       header: {  }
       footer: {  }
       empty: {  }
@@ -401,30 +717,469 @@ display:
       arguments: {  }
       display_extenders:
         views_merge_rows: {  }
+      group_by: true
     cache_metadata:
       max-age: -1
       contexts:
-      - 'languages:language_content'
-      - 'languages:language_interface'
-      - url.query_args
+        - 'languages:language_content'
+        - 'languages:language_interface'
+        - url
+        - url.query_args
       tags:
-      - 'config:field.storage.directory.field_geolocation'
-      - 'config:field.storage.directory.field_primary_address'
+        - 'config:field.storage.directory.field_geolocation'
+        - 'config:field.storage.directory.field_phone'
+        - 'config:field.storage.directory.field_primary_address'
+        - 'config:field.storage.directory.field_website'
   page_1:
     display_plugin: page
     id: page_1
-    display_title: Page
+    display_title: 'List View'
     position: 1
     display_options:
       display_extenders:
         views_merge_rows: {  }
-      path: school-finder
+      path: schools-list
+      display_description: ''
+      menu:
+        type: none
+        title: 'List View'
+        description: ''
+        expanded: false
+        parent: ''
+        weight: 0
+        context: '0'
+        menu_name: main
+      tab_options:
+        type: normal
+        title: Parishes
+        description: ''
+        weight: 0
     cache_metadata:
       max-age: -1
       contexts:
-      - 'languages:language_content'
-      - 'languages:language_interface'
-      - url.query_args
+        - 'languages:language_content'
+        - 'languages:language_interface'
+        - url
+        - url.query_args
       tags:
-      - 'config:field.storage.directory.field_geolocation'
-      - 'config:field.storage.directory.field_primary_address'
+        - 'config:field.storage.directory.field_geolocation'
+        - 'config:field.storage.directory.field_phone'
+        - 'config:field.storage.directory.field_primary_address'
+        - 'config:field.storage.directory.field_website'
+  page_2:
+    display_plugin: page
+    id: page_2
+    display_title: 'Map View'
+    position: 2
+    display_options:
+      display_extenders: {  }
+      display_description: ''
+      path: schools/map
+      menu:
+        type: none
+        title: 'Map View'
+        description: ''
+        expanded: false
+        parent: ''
+        weight: 0
+        context: '0'
+        menu_name: main
+      defaults:
+        fields: false
+      fields:
+        name:
+          id: name
+          table: directory_field_data
+          field: name
+          relationship: none
+          group_type: group
+          admin_label: ''
+          label: ''
+          exclude: false
+          alter:
+            alter_text: false
+            text: ''
+            make_link: false
+            path: ''
+            absolute: false
+            external: false
+            replace_spaces: false
+            path_case: none
+            trim_whitespace: false
+            alt: ''
+            rel: ''
+            link_class: ''
+            prefix: ''
+            suffix: ''
+            target: ''
+            nl2br: false
+            max_length: 0
+            word_boundary: true
+            ellipsis: true
+            more_link: false
+            more_link_text: ''
+            more_link_path: ''
+            strip_tags: false
+            trim: false
+            preserve_tags: ''
+            html: false
+          element_type: ''
+          element_class: ''
+          element_label_type: ''
+          element_label_class: ''
+          element_label_colon: false
+          element_wrapper_type: h2
+          element_wrapper_class: ''
+          element_default_classes: true
+          empty: ''
+          hide_empty: false
+          empty_zero: false
+          hide_alter_empty: true
+          click_sort_column: value
+          type: string
+          settings:
+            link_to_entity: true
+          group_column: value
+          group_columns: {  }
+          group_rows: true
+          delta_limit: 0
+          delta_offset: 0
+          delta_reversed: false
+          delta_first_last: false
+          multi_type: separator
+          separator: ', '
+          field_api_classes: false
+          entity_type: null
+          entity_field: name
+          plugin_id: field
+        field_primary_address:
+          id: field_primary_address
+          table: directory__field_primary_address
+          field: field_primary_address
+          relationship: none
+          group_type: group
+          admin_label: ''
+          label: ''
+          exclude: false
+          alter:
+            alter_text: false
+            text: ''
+            make_link: false
+            path: ''
+            absolute: false
+            external: false
+            replace_spaces: false
+            path_case: none
+            trim_whitespace: false
+            alt: ''
+            rel: ''
+            link_class: ''
+            prefix: ''
+            suffix: ''
+            target: ''
+            nl2br: false
+            max_length: 0
+            word_boundary: true
+            ellipsis: true
+            more_link: false
+            more_link_text: ''
+            more_link_path: ''
+            strip_tags: false
+            trim: false
+            preserve_tags: ''
+            html: false
+          element_type: ''
+          element_class: ''
+          element_label_type: ''
+          element_label_class: ''
+          element_label_colon: false
+          element_wrapper_type: ''
+          element_wrapper_class: ''
+          element_default_classes: true
+          empty: ''
+          hide_empty: false
+          empty_zero: false
+          hide_alter_empty: true
+          click_sort_column: langcode
+          type: address_default
+          settings: {  }
+          group_column: entity_id
+          group_columns: {  }
+          group_rows: true
+          delta_limit: 0
+          delta_offset: 0
+          delta_reversed: false
+          delta_first_last: false
+          multi_type: separator
+          separator: ', '
+          field_api_classes: false
+          plugin_id: field
+        field_phone:
+          id: field_phone
+          table: directory__field_phone
+          field: field_phone
+          relationship: none
+          group_type: group
+          admin_label: ''
+          label: ''
+          exclude: false
+          alter:
+            alter_text: false
+            text: ''
+            make_link: false
+            path: ''
+            absolute: false
+            external: false
+            replace_spaces: false
+            path_case: none
+            trim_whitespace: false
+            alt: ''
+            rel: ''
+            link_class: ''
+            prefix: ''
+            suffix: ''
+            target: ''
+            nl2br: false
+            max_length: 0
+            word_boundary: true
+            ellipsis: true
+            more_link: false
+            more_link_text: ''
+            more_link_path: ''
+            strip_tags: false
+            trim: false
+            preserve_tags: ''
+            html: false
+          element_type: ''
+          element_class: ''
+          element_label_type: ''
+          element_label_class: ''
+          element_label_colon: false
+          element_wrapper_type: ''
+          element_wrapper_class: ''
+          element_default_classes: true
+          empty: ''
+          hide_empty: false
+          empty_zero: false
+          hide_alter_empty: true
+          click_sort_column: value
+          type: string
+          settings:
+            link_to_entity: false
+          group_column: value
+          group_columns: {  }
+          group_rows: true
+          delta_limit: 0
+          delta_offset: 0
+          delta_reversed: false
+          delta_first_last: false
+          multi_type: separator
+          separator: ', '
+          field_api_classes: false
+          plugin_id: field
+        field_website:
+          id: field_website
+          table: directory__field_website
+          field: field_website
+          relationship: none
+          group_type: group
+          admin_label: ''
+          label: ''
+          exclude: false
+          alter:
+            alter_text: false
+            text: ''
+            make_link: false
+            path: ''
+            absolute: false
+            external: false
+            replace_spaces: false
+            path_case: none
+            trim_whitespace: false
+            alt: ''
+            rel: ''
+            link_class: ''
+            prefix: ''
+            suffix: ''
+            target: ''
+            nl2br: false
+            max_length: 0
+            word_boundary: true
+            ellipsis: true
+            more_link: false
+            more_link_text: ''
+            more_link_path: ''
+            strip_tags: false
+            trim: false
+            preserve_tags: ''
+            html: false
+          element_type: ''
+          element_class: ''
+          element_label_type: ''
+          element_label_class: ''
+          element_label_colon: false
+          element_wrapper_type: ''
+          element_wrapper_class: ''
+          element_default_classes: true
+          empty: ''
+          hide_empty: false
+          empty_zero: false
+          hide_alter_empty: true
+          click_sort_column: uri
+          type: link
+          settings:
+            trim_length: 80
+            url_only: false
+            url_plain: false
+            rel: '0'
+            target: '0'
+          group_column: entity_id
+          group_columns: {  }
+          group_rows: true
+          delta_limit: 0
+          delta_offset: 0
+          delta_reversed: false
+          delta_first_last: false
+          multi_type: separator
+          separator: ', '
+          field_api_classes: false
+          plugin_id: field
+        view_directory:
+          id: view_directory
+          table: directory
+          field: view_directory
+          relationship: none
+          group_type: group
+          admin_label: ''
+          label: ''
+          exclude: false
+          alter:
+            alter_text: false
+            text: ''
+            make_link: false
+            path: ''
+            absolute: false
+            external: false
+            replace_spaces: false
+            path_case: none
+            trim_whitespace: false
+            alt: ''
+            rel: ''
+            link_class: ''
+            prefix: ''
+            suffix: ''
+            target: ''
+            nl2br: false
+            max_length: 0
+            word_boundary: true
+            ellipsis: true
+            more_link: false
+            more_link_text: ''
+            more_link_path: ''
+            strip_tags: false
+            trim: false
+            preserve_tags: ''
+            html: false
+          element_type: ''
+          element_class: ''
+          element_label_type: ''
+          element_label_class: ''
+          element_label_colon: false
+          element_wrapper_type: ''
+          element_wrapper_class: ''
+          element_default_classes: true
+          empty: ''
+          hide_empty: false
+          empty_zero: false
+          hide_alter_empty: true
+          text: 'More information...'
+          output_url_as_text: false
+          absolute: false
+          entity_type: directory
+          plugin_id: entity_link
+        field_geolocation_proximity:
+          proximity_source: filter
+          proximity_lat: ''
+          proximity_lng: ''
+          proximity_units: mile
+          proximity_filter: field_geolocation_proximity
+          proximity_argument: ''
+          entity_id_argument: ''
+          boundary_filter: ''
+          proximity_geocoder: 0
+          proximity_geocoder_plugin_settings:
+            plugin_id: google_geocoding_api
+            settings:
+              components:
+                route: ''
+                locality: ''
+                administrativeArea: ''
+                postalCode: ''
+                country: ''
+          id: field_geolocation_proximity
+          table: directory__field_geolocation
+          field: field_geolocation_proximity
+          relationship: none
+          group_type: group
+          admin_label: ''
+          label: ''
+          exclude: false
+          alter:
+            alter_text: false
+            text: ''
+            make_link: false
+            path: ''
+            absolute: false
+            external: false
+            replace_spaces: false
+            path_case: none
+            trim_whitespace: false
+            alt: ''
+            rel: ''
+            link_class: ''
+            prefix: ''
+            suffix: ''
+            target: ''
+            nl2br: false
+            max_length: 0
+            word_boundary: true
+            ellipsis: true
+            more_link: false
+            more_link_text: ''
+            more_link_path: ''
+            strip_tags: false
+            trim: false
+            preserve_tags: ''
+            html: false
+          element_type: ''
+          element_class: ''
+          element_label_type: ''
+          element_label_class: ''
+          element_label_colon: false
+          element_wrapper_type: ''
+          element_wrapper_class: ''
+          element_default_classes: true
+          empty: ''
+          hide_empty: false
+          empty_zero: false
+          hide_alter_empty: true
+          set_precision: true
+          precision: 1
+          decimal: .
+          separator: ','
+          format_plural: false
+          format_plural_string: !!binary MQNAY291bnQ=
+          prefix: ''
+          suffix: ' Mi'
+          plugin_id: geolocation_field_proximity
+    cache_metadata:
+      max-age: -1
+      contexts:
+        - 'languages:language_content'
+        - 'languages:language_interface'
+        - url
+        - url.query_args
+      tags:
+        - 'config:field.storage.directory.field_phone'
+        - 'config:field.storage.directory.field_primary_address'
+        - 'config:field.storage.directory.field_website'
