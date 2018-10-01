@@ -1,0 +1,35 @@
+.view-parish-finder .views-row {
+    border: 1px solid;
+    clear: both;
+    margin: 20px 0;
+    overflow: auto;
+}
+.view-parish-finder .views-row .views-field-nothing {
+    float: left;
+    margin-right: 5%;
+    padding: 0 40px;
+    width: 45%;
+}
+
+.view-parish-finder .views-row .views-field-nothing .parish-address p {
+    margin-bottom: 0;
+}
+
+.view-parish-finder .views-row .views-field-nothing .parish-website {
+    padding: 10px 0;
+}
+
+.view-parish-finder .views-row .views-field-nothing .parish-details {
+    font-weight: bold;
+    padding: 10px 0;
+}
+
+.view-parish-finder .views-row .views-field-nothing .parish-proximity {
+    font-size: 1.25em;
+    font-weight: bold;
+}
+
+.view-parish-finder .views-row .views-field-field-geolocation {
+    float: right;
+    width: 45%;
+}

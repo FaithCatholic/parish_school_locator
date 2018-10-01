@@ -1,0 +1,4 @@
+parish_school_locator:
+  css:
+    component:
+      css/parish_school_locator.css: {}
