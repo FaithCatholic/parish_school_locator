@@ -89,7 +89,8 @@ function _mapbox_geocode($address) {
   $endpoint = 'https://api.mapbox.com/geocoding/v5/mapbox.places/';
 
   // Set Mapbox API
-  $token = 'pk.eyJ1IjoiZmFpdGhjYXRob2xpYyIsImEiOiJjamx3OGo5OGswNzM1M2txaWtqenIyYmpwIn0.TwloIdfSB7Q7V3Jv516C0A';
+  $config = \Drupal::config('parish_school_locator.mapbox');
+  $token = $config->get('mapbox_api_token');
 
   // Assemble request URL
   $url = $endpoint . $address . '.json?access_token=' . $token;
