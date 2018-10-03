@@ -36,6 +36,15 @@ function parish_school_locator_theme() {
 }
 
 /**
+ * Implements hook_uninstall().
+ */
+function parish_school_locator_uninstall() {
+    \Drupal::configFactory()->getEditable('field.field.directory.parishes.field_geolocation')->delete();
+    \Drupal::configFactory()->getEditable('field.field.directory.schools.field_geolocation')->delete();
+    \Drupal::configFactory()->getEditable('field.storage.directory.field_geolocation')->delete();
+}
+
+/**
  * Implements hook_form_alter()
  */
 function parish_school_locator_form_alter(&$form, FormStateInterface $form_state, $form_id) {
