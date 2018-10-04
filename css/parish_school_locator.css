@@ -1,35 +1,91 @@
-.view-parish-finder .views-row {
+/** Parish and School List Views **/
+
+.view-parish-finder .views-row,
+.view-school-finder .views-row {
     border: 1px solid;
     clear: both;
     margin: 20px 0;
     overflow: auto;
 }
-.view-parish-finder .views-row .views-field-nothing {
+
+.view-parish-finder .views-row .views-field-nothing,
+.view-school-finder .views-row .views-field-nothing {
     float: left;
     margin-right: 5%;
     padding: 0 40px;
     width: 45%;
 }
 
-.view-parish-finder .views-row .views-field-nothing .parish-address p {
+.view-parish-finder .views-row .views-field-nothing .parish-address p,
+.view-school-finder .views-row .views-field-nothing .school-address p {
     margin-bottom: 0;
 }
 
-.view-parish-finder .views-row .views-field-nothing .parish-website {
-    padding: 10px 0;
+.view-parish-finder .views-row .views-field-nothing .parish-phone,
+.view-school-finder .views-row .views-field-nothing .school-phone {
+    padding: 0 0 5px;
 }
 
-.view-parish-finder .views-row .views-field-nothing .parish-details {
+.view-parish-finder .views-row .views-field-nothing .parish-website,
+.view-school-finder .views-row .views-field-nothing .school-website {
+    padding: 5px 0;
+}
+
+.view-parish-finder .views-row .views-field-nothing .parish-details,
+.view-school-finder .views-row .views-field-nothing .school-details {
     font-weight: bold;
-    padding: 10px 0;
+    padding: 5px 0;
 }
 
-.view-parish-finder .views-row .views-field-nothing .parish-proximity {
+.view-parish-finder .views-row .views-field-nothing .parish-proximity,
+.view-school-finder .views-row .views-field-nothing .school-proximity {
     font-size: 1.25em;
     font-weight: bold;
+    padding: 5px 0 0;
 }
 
-.view-parish-finder .views-row .views-field-field-geolocation {
+.view-parish-finder .views-row .views-field-field-geolocation,
+.view-school-finder .views-row .views-field-field-geolocation {
     float: right;
     width: 45%;
+}
+
+/** Parish and School Map Views **/
+.view-parish-finder #views-form-parish-finder-page-2 .parish-address p,
+.view-school-finder #views-form-school-finder-page-2 .school-address p{
+    margin-bottom: 0;
+}
+
+.view-parish-finder #views-form-parish-finder-page-2 .parish-phone,
+.view-school-finder #views-form-school-finder-page-2 .school-phone{
+    padding: 0 0 5px;
+}
+
+.view-parish-finder #views-form-parish-finder-page-2 .parish-website,
+.view-school-finder #views-form-school-finder-page-2 .school-website {
+    padding: 5px 0;
+}
+
+.view-parish-finder #views-form-parish-finder-page-2 .parish-details,
+.view-school-finder #views-form-school-finder-page-2 .school-details {
+    font-weight: bold;
+    padding: 5px 0;
+}
+
+.view-parish-finder #views-form-parish-finder-page-2 .parish-proximity,
+.view-school-finder #views-form-school-finder-page-2 .school-proximity {
+    font-size: 1.25em;
+    font-weight: bold;
+    padding: 5px 0 0;
+}
+
+
+
+/** Exposed Filters **/
+
+.view-parish-finder #views-exposed-form-parish-finder-page-1 .form-actions,
+.view-parish-finder #views-exposed-form-parish-finder-page-2 .form-actions,
+.view-school-finder #views-exposed-form-school-finder-page-1 .form-actions,
+.view-school-finder #views-exposed-form-school-finder-page-2 .form-actions{
+    clear: both;
 }
