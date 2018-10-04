@@ -1,9 +1,10 @@
-uuid: 71f70f8b-9f47-474e-aba6-399d0902e194
+uuid: 7866bba1-e354-4e60-bf3a-dccd4b6dcdbb
 langcode: en
 status: true
 dependencies:
   config:
     - diocesan_directory.directory_type.schools
+    - field.storage.directory.field_geofield
     - field.storage.directory.field_geolocation
     - field.storage.directory.field_phone
     - field.storage.directory.field_primary_address
@@ -12,10 +13,13 @@ dependencies:
     - address
     - diocesan_directory
     - geolocation
+    - leaflet
+    - leaflet_views
     - link
+    - options
     - parish_school_locator
 _core:
-  default_config_hash: GEP9NYkToPSi6hg6uY59dlvqnuKFPkHRzy6I4yAyFBM
+  default_config_hash: AzGsBLj1TP8H_Zhm9R0ji7uJtmCwgWAqT5ZNI71Jle0
 id: school_finder
 label: 'School Finder'
 module: views
@@ -387,7 +391,7 @@ display:
           hide_empty: false
           empty_zero: false
           hide_alter_empty: true
-          text: 'More information...'
+          text: 'More information and mass times...'
           output_url_as_text: false
           absolute: false
           entity_type: directory
@@ -473,12 +477,12 @@ display:
           field: nothing
           relationship: none
           group_type: group
-          admin_label: 'School Info'
+          admin_label: 'Parish Info'
           label: ''
           exclude: false
           alter:
             alter_text: true
-            text: "<h2 class=\"school-name\">{{ name }}</h2>\n<div class=\"school-address\">{{ field_primary_address }}</div>\n<div class =\"school-phone\">{{ field_phone }}</div>\n<div class=\"school-website\">{{ field_website }}</div>\n<div class=\"school-details\">{{ view_directory }}</div>\n<div class=\"school-proximity\">{{ field_geolocation_proximity }}</div>"
+            text: "<h2 class=\"parish-name\">{{ name }}</h2>\n<div class=\"parish-address\">{{ field_primary_address }}</div>\n<div class =\"parish-phone\">{{ field_phone }}</div>\n<div class=\"parish-website\">{{ field_website }}</div>\n<div class=\"parish-details\">{{ view_directory }}</div>\n<div class=\"parish-proximity\">{{ field_geolocation_proximity }}</div>"
             make_link: false
             path: ''
             absolute: false
@@ -522,7 +526,7 @@ display:
           field: field_geolocation
           relationship: none
           group_type: group
-          admin_label: 'School Map'
+          admin_label: 'Parish Map'
           label: ''
           exclude: false
           alter:
@@ -683,6 +687,108 @@ display:
             default_group_multiple: {  }
             group_items: {  }
           plugin_id: geolocation_filter_proximity
+        field_county_value:
+          id: field_county_value
+          table: directory__field_county
+          field: field_county_value
+          relationship: none
+          group_type: group
+          admin_label: ''
+          operator: or
+          value: {  }
+          group: 1
+          exposed: true
+          expose:
+            operator_id: field_county_value_op
+            label: County
+            description: ''
+            use_operator: false
+            operator: field_county_value_op
+            identifier: field_county_value
+            required: false
+            remember: false
+            multiple: false
+            remember_roles:
+              authenticated: authenticated
+              anonymous: '0'
+              administrator: '0'
+              diocesan_administrator: '0'
+              diocesan_staff: '0'
+              directory: '0'
+              events_editor: '0'
+              news_editor: '0'
+              job_editor: '0'
+              priests: '0'
+              deacons: '0'
+              safe_environment: '0'
+              school_principal: '0'
+              tribunal_advocate: '0'
+            reduce: false
+          is_grouped: false
+          group_info:
+            label: ''
+            description: ''
+            identifier: ''
+            optional: true
+            widget: select
+            multiple: false
+            remember: false
+            default_group: All
+            default_group_multiple: {  }
+            group_items: {  }
+          reduce_duplicates: false
+          plugin_id: list_field
+        field_vicariate_value:
+          id: field_vicariate_value
+          table: directory__field_vicariate
+          field: field_vicariate_value
+          relationship: none
+          group_type: group
+          admin_label: ''
+          operator: or
+          value: {  }
+          group: 1
+          exposed: true
+          expose:
+            operator_id: field_vicariate_value_op
+            label: Deanery
+            description: ''
+            use_operator: false
+            operator: field_vicariate_value_op
+            identifier: field_vicariate_value
+            required: false
+            remember: false
+            multiple: false
+            remember_roles:
+              authenticated: authenticated
+              anonymous: '0'
+              administrator: '0'
+              diocesan_administrator: '0'
+              diocesan_staff: '0'
+              directory: '0'
+              events_editor: '0'
+              news_editor: '0'
+              job_editor: '0'
+              priests: '0'
+              deacons: '0'
+              safe_environment: '0'
+              school_principal: '0'
+              tribunal_advocate: '0'
+            reduce: false
+          is_grouped: false
+          group_info:
+            label: ''
+            description: ''
+            identifier: ''
+            optional: true
+            widget: select
+            multiple: false
+            remember: false
+            default_group: All
+            default_group_multiple: {  }
+            group_items: {  }
+          reduce_duplicates: false
+          plugin_id: list_field
       sorts:
         field_geolocation_proximity:
           proximity_field: field_geolocation_proximity
@@ -710,9 +816,35 @@ display:
             label: ''
           plugin_id: standard
       title: Schools
-      header: {  }
+      header:
+        area:
+          id: area
+          table: views
+          field: area
+          relationship: none
+          group_type: group
+          admin_label: ''
+          empty: false
+          tokenize: false
+          content:
+            value: '<a href="/schools/map">View School Map</a>'
+            format: full_html
+          plugin_id: text
       footer: {  }
-      empty: {  }
+      empty:
+        area:
+          id: area
+          table: views
+          field: area
+          relationship: none
+          group_type: group
+          admin_label: ''
+          empty: true
+          tokenize: false
+          content:
+            value: 'No schools match your search criteria.'
+            format: full_html
+          plugin_id: text
       relationships: {  }
       arguments: {  }
       display_extenders:
@@ -772,7 +904,8 @@ display:
     display_title: 'Map View'
     position: 2
     display_options:
-      display_extenders: {  }
+      display_extenders:
+        views_merge_rows: {  }
       display_description: ''
       path: schools/map
       menu:
@@ -786,7 +919,99 @@ display:
         menu_name: main
       defaults:
         fields: false
+        style: false
+        row: false
+        pager: false
+        header: false
       fields:
+        field_geofield:
+          id: field_geofield
+          table: directory__field_geofield
+          field: field_geofield
+          relationship: none
+          group_type: group
+          admin_label: ''
+          label: ''
+          exclude: false
+          alter:
+            alter_text: false
+            text: ''
+            make_link: false
+            path: ''
+            absolute: false
+            external: false
+            replace_spaces: false
+            path_case: none
+            trim_whitespace: false
+            alt: ''
+            rel: ''
+            link_class: ''
+            prefix: ''
+            suffix: ''
+            target: ''
+            nl2br: false
+            max_length: 0
+            word_boundary: true
+            ellipsis: true
+            more_link: false
+            more_link_text: ''
+            more_link_path: ''
+            strip_tags: false
+            trim: false
+            preserve_tags: ''
+            html: false
+          element_type: ''
+          element_class: ''
+          element_label_type: ''
+          element_label_class: ''
+          element_label_colon: false
+          element_wrapper_type: ''
+          element_wrapper_class: ''
+          element_default_classes: true
+          empty: ''
+          hide_empty: false
+          empty_zero: false
+          hide_alter_empty: true
+          click_sort_column: value
+          type: leaflet_formatter_default
+          settings:
+            multiple_map: 0
+            popup: 0
+            popup_content: ''
+            leaflet_map: 'OSM Mapnik'
+            height: '800'
+            hide_empty_map: 0
+            map_position:
+              force: 0
+              zoom: '12'
+              minZoom: '1'
+              maxZoom: '18'
+            icon:
+              iconUrl: ''
+              shadowUrl: ''
+              iconSize:
+                x: ''
+                'y': ''
+              iconAnchor:
+                x: ''
+                'y': ''
+              shadowAnchor:
+                x: ''
+                'y': ''
+              popupAnchor:
+                x: ''
+                'y': ''
+          group_column: value
+          group_columns: {  }
+          group_rows: true
+          delta_limit: 0
+          delta_offset: 0
+          delta_reversed: false
+          delta_first_last: false
+          multi_type: separator
+          separator: ', '
+          field_api_classes: false
+          plugin_id: field
         name:
           id: name
           table: directory_field_data
@@ -1172,14 +1397,118 @@ display:
           prefix: ''
           suffix: ' Mi'
           plugin_id: geolocation_field_proximity
+        nothing:
+          id: nothing
+          table: views
+          field: nothing
+          relationship: none
+          group_type: group
+          admin_label: ''
+          label: ''
+          exclude: false
+          alter:
+            alter_text: true
+            text: "<h2 class=\"parish-name\">{{ name }}</h2>\n<div class=\"parish-address\">{{ field_primary_address }}</div>\n<div class=\"parish-phone\">{{ field_phone }}</div>\n<div class=\"parish-website\">{{ field_website }}</div>\n<div class=\"parish-link\">{{ view_directory }}</div>\n<div class=\"parish-proximity\">{{ field_geolocation_proximity }}</div>"
+            make_link: false
+            path: ''
+            absolute: false
+            external: false
+            replace_spaces: false
+            path_case: none
+            trim_whitespace: false
+            alt: ''
+            rel: ''
+            link_class: ''
+            prefix: ''
+            suffix: ''
+            target: ''
+            nl2br: false
+            max_length: 0
+            word_boundary: true
+            ellipsis: true
+            more_link: false
+            more_link_text: ''
+            more_link_path: ''
+            strip_tags: false
+            trim: false
+            preserve_tags: ''
+            html: false
+          element_type: ''
+          element_class: ''
+          element_label_type: ''
+          element_label_class: ''
+          element_label_colon: false
+          element_wrapper_type: ''
+          element_wrapper_class: ''
+          element_default_classes: true
+          empty: ''
+          hide_empty: false
+          empty_zero: false
+          hide_alter_empty: false
+          plugin_id: custom
+      style:
+        type: leaflet_map
+        options:
+          grouping: {  }
+          data_source: field_geofield
+          name_field: name
+          description_field: nothing
+          view_mode: name_only
+          leaflet_map: 'OSM Mapnik'
+          height: '800'
+          hide_empty_map: 0
+          map_position:
+            force: 0
+            center:
+              lat: '0'
+              lon: '0'
+            zoom: '12'
+            minZoom: '1'
+            maxZoom: '18'
+          icon:
+            iconUrl: ''
+            shadowUrl: ''
+            iconSize:
+              x: ''
+              'y': ''
+            iconAnchor:
+              x: ''
+              'y': ''
+            shadowAnchor:
+              x: ''
+              'y': ''
+            popupAnchor:
+              x: ''
+              'y': ''
+      row:
+        type: fields
+        options: {  }
+      pager:
+        type: none
+        options:
+          offset: 0
+      header:
+        area:
+          id: area
+          table: views
+          field: area
+          relationship: none
+          group_type: group
+          admin_label: ''
+          empty: false
+          tokenize: false
+          content:
+            value: '<a href="/schools-list">View School List</a>'
+            format: full_html
+          plugin_id: text
     cache_metadata:
       max-age: -1
       contexts:
         - 'languages:language_content'
         - 'languages:language_interface'
         - url
-        - url.query_args
       tags:
+        - 'config:field.storage.directory.field_geofield'
         - 'config:field.storage.directory.field_phone'
         - 'config:field.storage.directory.field_primary_address'
         - 'config:field.storage.directory.field_website'
