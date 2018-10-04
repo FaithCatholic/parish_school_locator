@@ -20,7 +20,7 @@ dependencies:
     - options
     - parish_school_locator
 _core:
-  default_config_hash: AzGsBLj1TP8H_Zhm9R0ji7uJtmCwgWAqT5ZNI71Jle0
+  default_config_hash: OLw02I-dXum7sk5d3jeigWZzKD7kug9xOb3LCxuV9Ks
 id: parish_finder
 label: 'Parish Finder'
 module: views
@@ -1461,7 +1461,7 @@ display:
           exclude: false
           alter:
             alter_text: true
-            text: "<h2 class=\"parish-name\">{{ name }}</h2>\n<div class=\"parish-address\">{{ field_primary_address }}</div>\n<div class=\"parish-phone\">{{ field_phone }}</div>\n<div class=\"parish-website\">{{ field_website }}</div>\n<div class=\"parish-link\">{{ view_directory }}</div>\n<div class=\"parish-proximity\">{{ field_geolocation_proximity }}</div>"
+            text: "<h2 class=\"parish-name\">{{ name }}</h2>\n<div class=\"parish-address\">{{ field_primary_address }}</div>\n<div class=\"parish-phone\">{{ field_phone }}</div>\n<div class=\"parish-website\">{{ field_website }}</div>\n<div class=\"parish-details\">{{ view_directory }}</div>\n<div class=\"parish-proximity\">{{ field_geolocation_proximity }}</div>"
             make_link: false
             path: ''
             absolute: false

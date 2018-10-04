@@ -19,7 +19,7 @@ dependencies:
     - options
     - parish_school_locator
 _core:
-  default_config_hash: AzGsBLj1TP8H_Zhm9R0ji7uJtmCwgWAqT5ZNI71Jle0
+  default_config_hash: shoGO0E-u6gGcE0eqip7W8WsF5y-pFr7vUct1iSoq28
 id: school_finder
 label: 'School Finder'
 module: views
@@ -477,12 +477,12 @@ display:
           field: nothing
           relationship: none
           group_type: group
-          admin_label: 'Parish Info'
+          admin_label: 'School Info'
           label: ''
           exclude: false
           alter:
             alter_text: true
-            text: "<h2 class=\"parish-name\">{{ name }}</h2>\n<div class=\"parish-address\">{{ field_primary_address }}</div>\n<div class =\"parish-phone\">{{ field_phone }}</div>\n<div class=\"parish-website\">{{ field_website }}</div>\n<div class=\"parish-details\">{{ view_directory }}</div>\n<div class=\"parish-proximity\">{{ field_geolocation_proximity }}</div>"
+            text: "<h2 class=\"school-name\">{{ name }}</h2>\n<div class=\"school-address\">{{ field_primary_address }}</div>\n<div class =\"school-phone\">{{ field_phone }}</div>\n<div class=\"school-website\">{{ field_website }}</div>\n<div class=\"school-details\">{{ view_directory }}</div>\n<div class=\"school-proximity\">{{ field_geolocation_proximity }}</div>"
             make_link: false
             path: ''
             absolute: false
@@ -526,7 +526,7 @@ display:
           field: field_geolocation
           relationship: none
           group_type: group
-          admin_label: 'Parish Map'
+          admin_label: 'School Map'
           label: ''
           exclude: false
           alter:
@@ -1408,7 +1408,7 @@ display:
           exclude: false
           alter:
             alter_text: true
-            text: "<h2 class=\"parish-name\">{{ name }}</h2>\n<div class=\"parish-address\">{{ field_primary_address }}</div>\n<div class=\"parish-phone\">{{ field_phone }}</div>\n<div class=\"parish-website\">{{ field_website }}</div>\n<div class=\"parish-link\">{{ view_directory }}</div>\n<div class=\"parish-proximity\">{{ field_geolocation_proximity }}</div>"
+            text: "<h2 class=\"school-name\">{{ name }}</h2>\n<div class=\"school-address\">{{ field_primary_address }}</div>\n<div class=\"school-phone\">{{ field_phone }}</div>\n<div class=\"school-website\">{{ field_website }}</div>\n<div class=\"school-details\">{{ view_directory }}</div>\n<div class=\"school-proximity\">{{ field_geolocation_proximity }}</div>"
             make_link: false
             path: ''
             absolute: false
