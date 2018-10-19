@@ -10,11 +10,9 @@
 
 .view-parish-finder .views-row .views-field-nothing,
 .view-school-finder .views-row .views-field-nothing {
-    float: left;
-    margin-right: 5%;
     padding: 0 40px;
-    width: 45%;
 }
+
 
 .view-parish-finder .views-row .views-field-nothing .parish-address p,
 .view-school-finder .views-row .views-field-nothing .school-address p {
@@ -44,10 +42,19 @@
     padding: 5px 0 0;
 }
 
-.view-parish-finder .views-row .views-field-field-geolocation,
-.view-school-finder .views-row .views-field-field-geolocation {
-    float: right;
-    width: 45%;
+@media all and (min-width: 768px) {
+    .view-parish-finder .views-row .views-field-nothing,
+    .view-school-finder .views-row .views-field-nothing {
+        float: left;
+        margin-right: 5%;
+        width: 45%;
+    }
+
+    .view-parish-finder .views-row .views-field-field-geolocation,
+    .view-school-finder .views-row .views-field-field-geolocation {
+        float: right;
+        width: 45%;
+    }
 }
 
 /** Parish and School Map Views **/
