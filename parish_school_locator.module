@@ -139,10 +139,13 @@ function _mapbox_geocode($address) {
  * Implements hook_views_pre_render().
  */
 function parish_school_locator_views_pre_render(\Drupal\views\ViewExecutable $view) {
-    if (isset($view) && ($view->storage->id() == 'parish_finder')) {
-        $view->element['#attached']['library'][] = 'parish_school_locator/parish_school_locator';
+  if (isset($view) && ($view->storage->id() == 'parish_finder')) {
+    $view->element['#attached']['library'][] = 'parish_school_locator/parish_school_locator';
+    if ($view->exposed_widgets['field_geocoded_address']['#value'] == '') {
+      unset($view->field['field_geolocation_proximity']);
     }
-    if (isset($view) && ($view->storage->id() == 'school_finder')) {
-        $view->element['#attached']['library'][] = 'parish_school_locator/parish_school_locator';
-    }
+  }
+  if (isset($view) && ($view->storage->id() == 'school_finder')) {
+    $view->element['#attached']['library'][] = 'parish_school_locator/parish_school_locator';
+  }
 }
