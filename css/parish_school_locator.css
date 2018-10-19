@@ -86,6 +86,13 @@
 .view-parish-finder #views-exposed-form-parish-finder-page-1 .form-actions,
 .view-parish-finder #views-exposed-form-parish-finder-page-2 .form-actions,
 .view-school-finder #views-exposed-form-school-finder-page-1 .form-actions,
-.view-school-finder #views-exposed-form-school-finder-page-2 .form-actions{
+.view-school-finder #views-exposed-form-school-finder-page-2 .form-actions {
+    clear: both;
+}
+
+.view-parish-finder #views-exposed-form-parish-finder-page-1 details,
+.view-parish-finder #views-exposed-form-parish-finder-page-2 details,
+.view-school-finder #views-exposed-form-school-finder-page-1 details,
+.view-school-finder #views-exposed-form-school-finder-page-2 details  {
     clear: both;
 }

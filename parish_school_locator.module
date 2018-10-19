@@ -64,6 +64,20 @@ function parish_school_locator_form_alter(&$form, FormStateInterface $form_state
     $form['field_geocoded_address']['#title'] = t('Nearest to');
     $form['field_geocoded_address']['#attributes']['placeholder'] = t('Enter an address, city & state, or zip code');
 
+    // Create fieldset for Advanced Search filters
+    $form['advanced'] = [
+        '#type' => 'details',
+        '#title' => t('Advanced Search'),
+    ];
+
+    // Move deanery and county to Advance Search fieldset
+    $form['advanced']['field_county_value'] = $form['field_county_value'];
+    $form['advanced']['field_county_value']['#title'] = t('County');
+    unset($form['field_county_value']);
+    $form['advanced']['field_vicariate_value'] = $form['field_vicariate_value'];
+    $form['advanced']['field_vicariate_value']['#title'] = t('Deanery');
+    unset($form['field_vicariate_value']);
+
     // Add a custom form validator for geocoding
     $form['#validate'][] = '_parish_school_locator_validate';
   }
