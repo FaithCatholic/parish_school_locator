@@ -688,6 +688,57 @@ display:
             default_group_multiple: {  }
             group_items: {  }
           plugin_id: geolocation_filter_proximity
+        field_service_type_value:
+          id: field_service_type_value
+          table: mass_times__field_service_type
+          field: field_service_type_value
+          relationship: reverse__mass_times__field_parish
+          group_type: group
+          admin_label: ''
+          operator: or
+          value: {  }
+          group: 1
+          exposed: true
+          expose:
+            operator_id: field_service_type_value_op
+            label: 'Service Type'
+            description: ''
+            use_operator: false
+            operator: field_service_type_value_op
+            identifier: field_service_type_value
+            required: false
+            remember: false
+            multiple: false
+            remember_roles:
+              authenticated: authenticated
+              anonymous: '0'
+              administrator: '0'
+              diocesan_administrator: '0'
+              diocesan_staff: '0'
+              directory: '0'
+              events_editor: '0'
+              news_editor: '0'
+              job_editor: '0'
+              priests: '0'
+              deacons: '0'
+              safe_environment: '0'
+              school_principal: '0'
+              tribunal_advocate: '0'
+            reduce: false
+          is_grouped: false
+          group_info:
+            label: ''
+            description: ''
+            identifier: ''
+            optional: true
+            widget: select
+            multiple: false
+            remember: false
+            default_group: All
+            default_group_multiple: {  }
+            group_items: {  }
+          reduce_duplicates: false
+          plugin_id: list_field
         field_day_of_week_value:
           id: field_day_of_week_value
           table: mass_times__field_day_of_week
@@ -701,7 +752,7 @@ display:
           exposed: true
           expose:
             operator_id: field_day_of_week_value_op
-            label: 'Mass Day'
+            label: 'Service Day'
             description: ''
             use_operator: false
             operator: field_day_of_week_value_op
@@ -711,10 +762,19 @@ display:
             multiple: false
             remember_roles:
               authenticated: authenticated
-              diocesan_administrator: '0'
-              directory: '0'
               anonymous: '0'
               administrator: '0'
+              diocesan_administrator: '0'
+              diocesan_staff: '0'
+              directory: '0'
+              events_editor: '0'
+              news_editor: '0'
+              job_editor: '0'
+              priests: '0'
+              deacons: '0'
+              safe_environment: '0'
+              school_principal: '0'
+              tribunal_advocate: '0'
             reduce: false
           is_grouped: false
           group_info:
@@ -903,6 +963,10 @@ display:
       display_extenders:
         views_merge_rows: {  }
       group_by: true
+      filter_groups:
+        operator: AND
+        groups:
+          1: AND
     cache_metadata:
       max-age: -1
       contexts:
