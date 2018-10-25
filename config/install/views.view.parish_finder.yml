@@ -19,6 +19,7 @@ dependencies:
     - mass_times
     - options
     - parish_school_locator
+    - views_field_view
 _core:
   default_config_hash: OLw02I-dXum7sk5d3jeigWZzKD7kug9xOb3LCxuV9Ks
 id: parish_finder
@@ -87,6 +88,72 @@ display:
       row:
         type: fields
       fields:
+        id:
+          id: id
+          table: directory_field_data
+          field: id
+          relationship: none
+          group_type: group
+          admin_label: ''
+          label: ''
+          exclude: true
+          alter:
+            alter_text: false
+            text: ''
+            make_link: false
+            path: ''
+            absolute: false
+            external: false
+            replace_spaces: false
+            path_case: none
+            trim_whitespace: false
+            alt: ''
+            rel: ''
+            link_class: ''
+            prefix: ''
+            suffix: ''
+            target: ''
+            nl2br: false
+            max_length: 0
+            word_boundary: true
+            ellipsis: true
+            more_link: false
+            more_link_text: ''
+            more_link_path: ''
+            strip_tags: false
+            trim: false
+            preserve_tags: ''
+            html: false
+          element_type: ''
+          element_class: ''
+          element_label_type: ''
+          element_label_class: ''
+          element_label_colon: false
+          element_wrapper_type: ''
+          element_wrapper_class: ''
+          element_default_classes: true
+          empty: ''
+          hide_empty: false
+          empty_zero: false
+          hide_alter_empty: true
+          click_sort_column: value
+          type: number_integer
+          settings:
+            thousand_separator: ''
+            prefix_suffix: true
+          group_column: value
+          group_columns: {  }
+          group_rows: true
+          delta_limit: 0
+          delta_offset: 0
+          delta_reversed: false
+          delta_first_last: false
+          multi_type: separator
+          separator: ', '
+          field_api_classes: false
+          entity_type: directory
+          entity_field: id
+          plugin_id: field
         name:
           id: name
           table: directory_field_data
@@ -344,6 +411,58 @@ display:
           separator: ', '
           field_api_classes: false
           plugin_id: field
+        view:
+          id: view
+          table: views
+          field: view
+          relationship: none
+          group_type: group
+          admin_label: ''
+          label: Services
+          exclude: true
+          alter:
+            alter_text: false
+            text: ''
+            make_link: false
+            path: ''
+            absolute: false
+            external: false
+            replace_spaces: false
+            path_case: none
+            trim_whitespace: false
+            alt: ''
+            rel: ''
+            link_class: ''
+            prefix: ''
+            suffix: ''
+            target: ''
+            nl2br: false
+            max_length: 0
+            word_boundary: true
+            ellipsis: true
+            more_link: false
+            more_link_text: ''
+            more_link_path: ''
+            strip_tags: false
+            trim: false
+            preserve_tags: ''
+            html: false
+          element_type: ''
+          element_class: ''
+          element_label_type: ''
+          element_label_class: ''
+          element_label_colon: false
+          element_wrapper_type: ''
+          element_wrapper_class: ''
+          element_default_classes: true
+          empty: ''
+          hide_empty: false
+          empty_zero: false
+          hide_alter_empty: true
+          view: parish_mass_times
+          display: default
+          arguments: '{{ raw_fields.id }}'
+          plugin_id: view
         view_directory:
           id: view_directory
           table: directory
@@ -483,7 +602,7 @@ display:
           exclude: false
           alter:
             alter_text: true
-            text: "<h2 class=\"parish-name\">{{ name }}</h2>\n<div class=\"parish-address\">{{ field_primary_address }}</div>\n<div class =\"parish-phone\">{{ field_phone }}</div>\n<div class=\"parish-website\">{{ field_website }}</div>\n<div class=\"parish-details\">{{ view_directory }}</div>\n<div class=\"parish-proximity\">{{ field_geolocation_proximity }}</div>"
+            text: "<h2 class=\"parish-name\">{{ name }}</h2>\n<div class=\"parish-address\">{{ field_primary_address }}</div>\n<div class =\"parish-phone\">{{ field_phone }}</div>\n<div class=\"parish-website\">{{ field_website }}</div>\n<details data-drupal-selector=\"parish-mass-times\" id=\"parish-mass-tims\" class=\"js-form-wrapper form-wrapper\">\n    <summary role=\"button\" aria-controls=\"parish-mass-times\" aria-expanded=\"false\" aria-pressed=\"false\">Service Times</summary>\n    <div class=\"parish-mass-times\">{{ view }}</div>\n</details>\n<div class=\"parish-details\">{{ view_directory }}</div>\n<div class=\"parish-proximity\">{{ field_geolocation_proximity }}</div>"
             make_link: false
             path: ''
             absolute: false
