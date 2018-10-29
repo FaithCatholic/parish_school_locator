@@ -57,7 +57,25 @@
     }
 }
 
-/** Parish and School Map Views **/
+.view-parish-finder .parish-services .view-parish-mass-times .view-grouping-header {
+    font-weight: bold;
+    text-transform: uppercase;
+    font-size: 1.25em;
+    margin: 20px 0 0 10px;
+    size: 1.25em;
+}
+
+.view-parish-finder .parish-services .view-parish-mass-times .view-grouping-content h3 {
+    font-size: 1em;
+    margin: 0 0 0 25px;
+}
+
+.view-parish-finder .parish-services .view-parish-mass-times .views-row {
+    border: none;
+    margin: 0 0 0 40px;
+}
+
+    /** Parish and School Map Views **/
 .view-parish-finder #views-form-parish-finder-page-2 .parish-address p,
 .view-school-finder #views-form-school-finder-page-2 .school-address p{
     margin-bottom: 0;
