@@ -76,7 +76,7 @@ class LeafletGeolocationFieldFormatter extends FormatterBase {
       $map = \Drupal::service('leaflet.service')->leafletMapGetInfo($settings['leaflet_map']);
 
       // render the map
-      $result = \Drupal::service('leaflet.service')->leafletRenderMap($map, $features, $height = '300px');
+      $result = \Drupal::service('leaflet.service')->leafletRenderMap($map, $features, $height = '350px');
 
       // set field output as rendered map
       $elements[$delta] = $result;

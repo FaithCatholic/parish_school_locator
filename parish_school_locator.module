@@ -141,9 +141,93 @@ function _mapbox_geocode($address) {
 function parish_school_locator_views_pre_render(\Drupal\views\ViewExecutable $view) {
   if (isset($view) && ($view->storage->id() == 'parish_finder')) {
     $view->element['#attached']['library'][] = 'parish_school_locator/parish_school_locator';
+
+    // If no addressed entered, hide proximity field
     if ($view->exposed_widgets['field_geocoded_address']['#value'] == '') {
       unset($view->field['field_geolocation_proximity']);
     }
+
+    // Default to weekend masses if no type or day is selected
+    if ($view->exposed_data['field_service_type_value'] == 'All' && $view->exposed_data['field_day_of_week_value'] == 'All') {
+      unset($view->field['view_1']);
+      unset($view->field['view_2']);
+      unset($view->field['view_3']);
+      unset($view->field['view_4']);
+      unset($view->field['view_5']);
+      unset($view->field['view_6']);
+    }
+
+    // If Weekend selected, only show weekend masses
+    if ($view->exposed_data['field_service_type_value'] == 'weekend') {
+      unset($view->field['view_1']);
+      unset($view->field['view_2']);
+      unset($view->field['view_3']);
+      unset($view->field['view_4']);
+      unset($view->field['view_5']);
+      unset($view->field['view_6']);
+    }
+
+    // If Weekday selected, only show weekday masses
+    if ($view->exposed_data['field_service_type_value'] == 'week_day') {
+      unset($view->field['view']);
+      unset($view->field['view_2']);
+      unset($view->field['view_3']);
+      unset($view->field['view_4']);
+      unset($view->field['view_5']);
+      unset($view->field['view_6']);
+    }
+
+    // If Holy Day Vigil selected, only show holy day vigil masses
+    if ($view->exposed_data['field_service_type_value'] == 'vigil_holy_days') {
+      unset($view->field['view']);
+      unset($view->field['view_1']);
+      unset($view->field['view_3']);
+      unset($view->field['view_4']);
+      unset($view->field['view_5']);
+      unset($view->field['view_6']);
+    }
+
+    // If Holy Days selected, only show holy day masses
+    if ($view->exposed_data['field_service_type_value'] == 'holy_days') {
+      unset($view->field['view']);
+      unset($view->field['view_1']);
+      unset($view->field['view_2']);
+      unset($view->field['view_4']);
+      unset($view->field['view_5']);
+      unset($view->field['view_6']);
+    }
+
+    // If Confession selected, only show confessions
+    if ($view->exposed_data['field_service_type_value'] == 'confession') {
+      unset($view->field['view']);
+      unset($view->field['view_1']);
+      unset($view->field['view_2']);
+      unset($view->field['view_3']);
+      unset($view->field['view_5']);
+      unset($view->field['view_6']);
+    }
+
+    // If Adoration selected, only show adorations
+    if ($view->exposed_data['field_service_type_value'] == 'adoration') {
+      unset($view->field['view']);
+      unset($view->field['view_1']);
+      unset($view->field['view_2']);
+      unset($view->field['view_3']);
+      unset($view->field['view_4']);
+      unset($view->field['view_6']);
+    }
+
+    // If Devotion selected, only show devotions
+    if ($view->exposed_data['field_service_type_value'] == 'devotion') {
+      unset($view->field['view']);
+      unset($view->field['view_1']);
+      unset($view->field['view_2']);
+      unset($view->field['view_3']);
+      unset($view->field['view_4']);
+      unset($view->field['view_5']);
+    }
+
+    //
   }
   if (isset($view) && ($view->storage->id() == 'school_finder')) {
     $view->element['#attached']['library'][] = 'parish_school_locator/parish_school_locator';

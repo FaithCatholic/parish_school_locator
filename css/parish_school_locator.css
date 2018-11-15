@@ -39,7 +39,7 @@
 .view-school-finder .views-row .views-field-nothing .school-proximity {
     font-size: 1.25em;
     font-weight: bold;
-    padding: 5px 0 0;
+    padding: 5px 0 10px;
 }
 
 @media all and (min-width: 768px) {
