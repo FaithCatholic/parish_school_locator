@@ -9,10 +9,14 @@ dependencies:
     - field.storage.directory.field_phone
     - field.storage.directory.field_primary_address
     - field.storage.directory.field_website
+    - field.storage.mass_times.field_day_of_week
+    - field.storage.mass_times.field_service_start_time
+    - field.storage.mass_times.field_service_type
   module:
     - address
     - diocesan_directory
     - geolocation
+    - hms_field
     - leaflet
     - leaflet_views
     - link
@@ -68,6 +72,9 @@ display:
           offset: 0
           id: 0
           total_pages: null
+          tags:
+            previous: ‹‹
+            next: ››
           expose:
             items_per_page: false
             items_per_page_label: 'Items per page'
@@ -76,9 +83,6 @@ display:
             items_per_page_options_all_label: '- All -'
             offset: false
             offset_label: Offset
-          tags:
-            previous: ‹‹
-            next: ››
       style:
         type: default
         options:
@@ -417,8 +421,8 @@ display:
           field: view
           relationship: none
           group_type: group
-          admin_label: ''
-          label: Services
+          admin_label: 'Weekend Mass'
+          label: 'Sunday Mass'
           exclude: true
           alter:
             alter_text: false
@@ -456,13 +460,374 @@ display:
           element_wrapper_class: ''
           element_default_classes: true
           empty: ''
-          hide_empty: false
+          hide_empty: true
           empty_zero: false
           hide_alter_empty: true
-          view: parish_mass_times
-          display: default
+          view: parish_finder
+          display: attachment_1
           arguments: '{{ raw_fields.id }}'
           plugin_id: view
+        view_1:
+          id: view_1
+          table: views
+          field: view
+          relationship: none
+          group_type: group
+          admin_label: 'Week Day Mass'
+          label: 'Week Day Mass'
+          exclude: true
+          alter:
+            alter_text: false
+            text: ''
+            make_link: false
+            path: ''
+            absolute: false
+            external: false
+            replace_spaces: false
+            path_case: none
+            trim_whitespace: false
+            alt: ''
+            rel: ''
+            link_class: ''
+            prefix: ''
+            suffix: ''
+            target: ''
+            nl2br: false
+            max_length: 0
+            word_boundary: true
+            ellipsis: true
+            more_link: false
+            more_link_text: ''
+            more_link_path: ''
+            strip_tags: false
+            trim: false
+            preserve_tags: ''
+            html: false
+          element_type: ''
+          element_class: ''
+          element_label_type: ''
+          element_label_class: ''
+          element_label_colon: false
+          element_wrapper_type: ''
+          element_wrapper_class: ''
+          element_default_classes: true
+          empty: ''
+          hide_empty: true
+          empty_zero: false
+          hide_alter_empty: true
+          view: parish_finder
+          display: attachment_2
+          arguments: '{{ raw_fields.id }}'
+          plugin_id: view
+        view_2:
+          id: view_2
+          table: views
+          field: view
+          relationship: none
+          group_type: group
+          admin_label: 'Holy Day Vigil'
+          label: 'Holy Day Vigil Mass'
+          exclude: true
+          alter:
+            alter_text: false
+            text: ''
+            make_link: false
+            path: ''
+            absolute: false
+            external: false
+            replace_spaces: false
+            path_case: none
+            trim_whitespace: false
+            alt: ''
+            rel: ''
+            link_class: ''
+            prefix: ''
+            suffix: ''
+            target: ''
+            nl2br: false
+            max_length: 0
+            word_boundary: true
+            ellipsis: true
+            more_link: false
+            more_link_text: ''
+            more_link_path: ''
+            strip_tags: false
+            trim: false
+            preserve_tags: ''
+            html: false
+          element_type: ''
+          element_class: ''
+          element_label_type: ''
+          element_label_class: ''
+          element_label_colon: false
+          element_wrapper_type: ''
+          element_wrapper_class: ''
+          element_default_classes: true
+          empty: ''
+          hide_empty: true
+          empty_zero: false
+          hide_alter_empty: true
+          view: parish_finder
+          display: attachment_3
+          arguments: '{{ raw_fields.id }}'
+          plugin_id: view
+        view_3:
+          id: view_3
+          table: views
+          field: view
+          relationship: none
+          group_type: group
+          admin_label: 'Holy Day Mass'
+          label: 'Holy Day Mass'
+          exclude: true
+          alter:
+            alter_text: false
+            text: ''
+            make_link: false
+            path: ''
+            absolute: false
+            external: false
+            replace_spaces: false
+            path_case: none
+            trim_whitespace: false
+            alt: ''
+            rel: ''
+            link_class: ''
+            prefix: ''
+            suffix: ''
+            target: ''
+            nl2br: false
+            max_length: 0
+            word_boundary: true
+            ellipsis: true
+            more_link: false
+            more_link_text: ''
+            more_link_path: ''
+            strip_tags: false
+            trim: false
+            preserve_tags: ''
+            html: false
+          element_type: ''
+          element_class: ''
+          element_label_type: ''
+          element_label_class: ''
+          element_label_colon: false
+          element_wrapper_type: ''
+          element_wrapper_class: ''
+          element_default_classes: true
+          empty: ''
+          hide_empty: true
+          empty_zero: false
+          hide_alter_empty: true
+          view: parish_finder
+          display: attachment_4
+          arguments: '{{ raw_fields.id }}'
+          plugin_id: view
+        view_4:
+          id: view_4
+          table: views
+          field: view
+          relationship: none
+          group_type: group
+          admin_label: Confession
+          label: Confession
+          exclude: true
+          alter:
+            alter_text: false
+            text: ''
+            make_link: false
+            path: ''
+            absolute: false
+            external: false
+            replace_spaces: false
+            path_case: none
+            trim_whitespace: false
+            alt: ''
+            rel: ''
+            link_class: ''
+            prefix: ''
+            suffix: ''
+            target: ''
+            nl2br: false
+            max_length: 0
+            word_boundary: true
+            ellipsis: true
+            more_link: false
+            more_link_text: ''
+            more_link_path: ''
+            strip_tags: false
+            trim: false
+            preserve_tags: ''
+            html: false
+          element_type: ''
+          element_class: ''
+          element_label_type: ''
+          element_label_class: ''
+          element_label_colon: false
+          element_wrapper_type: ''
+          element_wrapper_class: ''
+          element_default_classes: true
+          empty: ''
+          hide_empty: true
+          empty_zero: false
+          hide_alter_empty: true
+          view: parish_finder
+          display: attachment_5
+          arguments: '{{ raw_fields.id }}'
+          plugin_id: view
+        view_5:
+          id: view_5
+          table: views
+          field: view
+          relationship: none
+          group_type: group
+          admin_label: Adoration
+          label: Adoration
+          exclude: true
+          alter:
+            alter_text: false
+            text: ''
+            make_link: false
+            path: ''
+            absolute: false
+            external: false
+            replace_spaces: false
+            path_case: none
+            trim_whitespace: false
+            alt: ''
+            rel: ''
+            link_class: ''
+            prefix: ''
+            suffix: ''
+            target: ''
+            nl2br: false
+            max_length: 0
+            word_boundary: true
+            ellipsis: true
+            more_link: false
+            more_link_text: ''
+            more_link_path: ''
+            strip_tags: false
+            trim: false
+            preserve_tags: ''
+            html: false
+          element_type: ''
+          element_class: ''
+          element_label_type: ''
+          element_label_class: ''
+          element_label_colon: false
+          element_wrapper_type: ''
+          element_wrapper_class: ''
+          element_default_classes: true
+          empty: ''
+          hide_empty: true
+          empty_zero: false
+          hide_alter_empty: true
+          view: parish_finder
+          display: attachment_6
+          arguments: '{{ raw_fields.id }}'
+          plugin_id: view
+        view_6:
+          id: view_6
+          table: views
+          field: view
+          relationship: none
+          group_type: group
+          admin_label: Devotion
+          label: Devotion
+          exclude: true
+          alter:
+            alter_text: false
+            text: ''
+            make_link: false
+            path: ''
+            absolute: false
+            external: false
+            replace_spaces: false
+            path_case: none
+            trim_whitespace: false
+            alt: ''
+            rel: ''
+            link_class: ''
+            prefix: ''
+            suffix: ''
+            target: ''
+            nl2br: false
+            max_length: 0
+            word_boundary: true
+            ellipsis: true
+            more_link: false
+            more_link_text: ''
+            more_link_path: ''
+            strip_tags: false
+            trim: false
+            preserve_tags: ''
+            html: false
+          element_type: ''
+          element_class: ''
+          element_label_type: ''
+          element_label_class: ''
+          element_label_colon: false
+          element_wrapper_type: ''
+          element_wrapper_class: ''
+          element_default_classes: true
+          empty: ''
+          hide_empty: true
+          empty_zero: false
+          hide_alter_empty: true
+          view: parish_finder
+          display: attachment_7
+          arguments: '{{ raw_fields.id }}'
+          plugin_id: view
+        nothing_1:
+          id: nothing_1
+          table: views
+          field: nothing
+          relationship: none
+          group_type: group
+          admin_label: ''
+          label: ''
+          exclude: true
+          alter:
+            alter_text: true
+            text: "<details data-drupal-selector=\"parish-mass-times\" id=\"parish-mass-times\" class=\"js-form-wrapper form-wrapper\">\n    <summary role=\"button\" aria-controls=\"parish-mass-times\" aria-expanded=\"false\" aria-pressed=\"false\">Service Times</summary>\n    <div class=\"parish-weekend-mass\">{{ view }}</div>\n    <div class=\"parish-week-day-mass\">{{ view_1 }}</div>\n    <div class=\"parish-holy-day-vigil-mass\">{{ view_2 }}</div>\n    <div class=\"parish-holy-day-mass\">{{ view_3 }}</div>\n    <div class=\"parish-confession\">{{ view_4 }}</div>\n    <div class=\"parish-adoration\">{{ view_5 }}</div>\n    <div class=\"parish-devotion\">{{ view_6 }}</div>\n</details>"
+            make_link: false
+            path: ''
+            absolute: false
+            external: false
+            replace_spaces: false
+            path_case: none
+            trim_whitespace: false
+            alt: ''
+            rel: ''
+            link_class: ''
+            prefix: ''
+            suffix: ''
+            target: ''
+            nl2br: false
+            max_length: 0
+            word_boundary: true
+            ellipsis: true
+            more_link: false
+            more_link_text: ''
+            more_link_path: ''
+            strip_tags: false
+            trim: false
+            preserve_tags: ''
+            html: false
+          element_type: ''
+          element_class: ''
+          element_label_type: ''
+          element_label_class: ''
+          element_label_colon: false
+          element_wrapper_type: ''
+          element_wrapper_class: ''
+          element_default_classes: true
+          empty: ''
+          hide_empty: false
+          empty_zero: false
+          hide_alter_empty: false
+          plugin_id: custom
         view_directory:
           id: view_directory
           table: directory
@@ -511,7 +876,7 @@ display:
           hide_empty: false
           empty_zero: false
           hide_alter_empty: true
-          text: 'More information and mass times...'
+          text: 'More information and all service times...'
           output_url_as_text: false
           absolute: false
           entity_type: directory
@@ -602,7 +967,7 @@ display:
           exclude: false
           alter:
             alter_text: true
-            text: "<h2 class=\"parish-name\">{{ name }}</h2>\n<div class=\"parish-address\">{{ field_primary_address }}</div>\n<div class =\"parish-phone\">{{ field_phone }}</div>\n<div class=\"parish-website\">{{ field_website }}</div>\n<details data-drupal-selector=\"parish-mass-times\" id=\"parish-mass-tims\" class=\"js-form-wrapper form-wrapper\">\n    <summary role=\"button\" aria-controls=\"parish-mass-times\" aria-expanded=\"false\" aria-pressed=\"false\">Service Times</summary>\n    <div class=\"parish-mass-times\">{{ view }}</div>\n</details>\n<div class=\"parish-details\">{{ view_directory }}</div>\n<div class=\"parish-proximity\">{{ field_geolocation_proximity }}</div>"
+            text: "<h2 class=\"parish-name\">{{ name }}</h2>\n<div class=\"parish-address\">{{ field_primary_address }}</div>\n<div class =\"parish-phone\">{{ field_phone }}</div>\n<div class=\"parish-website\">{{ field_website }}</div>\n<div class=\"parish-services\">{{ nothing_1 }}</div>\n<div class=\"parish-details\">{{ view_directory }}</div>\n<div class=\"parish-proximity\">{{ field_geolocation_proximity }}</div>"
             make_link: false
             path: ''
             absolute: false
@@ -1098,6 +1463,2981 @@ display:
         - 'config:field.storage.directory.field_phone'
         - 'config:field.storage.directory.field_primary_address'
         - 'config:field.storage.directory.field_website'
+  attachment_1:
+    display_plugin: attachment
+    id: attachment_1
+    display_title: 'Weekend Mass Times'
+    position: 3
+    display_options:
+      display_extenders:
+        views_merge_rows: {  }
+      inherit_exposed_filters: true
+      title: 'Service Times'
+      defaults:
+        title: false
+        fields: false
+        filters: false
+        filter_groups: false
+        sorts: false
+        empty: false
+        header: false
+        group_by: false
+        exposed_form: false
+        query: false
+        relationships: false
+        style: false
+        row: false
+        arguments: false
+      fields:
+        field_day_of_week:
+          id: field_day_of_week
+          table: mass_times__field_day_of_week
+          field: field_day_of_week
+          relationship: reverse__mass_times__field_parish
+          group_type: group
+          admin_label: ''
+          label: ''
+          exclude: true
+          alter:
+            alter_text: false
+            text: ''
+            make_link: false
+            path: ''
+            absolute: false
+            external: false
+            replace_spaces: false
+            path_case: none
+            trim_whitespace: false
+            alt: ''
+            rel: ''
+            link_class: ''
+            prefix: ''
+            suffix: ''
+            target: ''
+            nl2br: false
+            max_length: 0
+            word_boundary: true
+            ellipsis: true
+            more_link: false
+            more_link_text: ''
+            more_link_path: ''
+            strip_tags: false
+            trim: false
+            preserve_tags: ''
+            html: false
+          element_type: ''
+          element_class: ''
+          element_label_type: ''
+          element_label_class: ''
+          element_label_colon: false
+          element_wrapper_type: ''
+          element_wrapper_class: ''
+          element_default_classes: true
+          empty: ''
+          hide_empty: false
+          empty_zero: false
+          hide_alter_empty: true
+          click_sort_column: value
+          type: list_default
+          settings: {  }
+          group_column: value
+          group_columns: {  }
+          group_rows: true
+          delta_limit: 0
+          delta_offset: 0
+          delta_reversed: false
+          delta_first_last: false
+          multi_type: separator
+          separator: ', '
+          field_api_classes: false
+          plugin_id: field
+        field_service_type:
+          id: field_service_type
+          table: mass_times__field_service_type
+          field: field_service_type
+          relationship: reverse__mass_times__field_parish
+          group_type: group
+          admin_label: ''
+          label: ''
+          exclude: true
+          alter:
+            alter_text: false
+            text: ''
+            make_link: false
+            path: ''
+            absolute: false
+            external: false
+            replace_spaces: false
+            path_case: none
+            trim_whitespace: false
+            alt: ''
+            rel: ''
+            link_class: ''
+            prefix: ''
+            suffix: ''
+            target: ''
+            nl2br: false
+            max_length: 0
+            word_boundary: true
+            ellipsis: true
+            more_link: false
+            more_link_text: ''
+            more_link_path: ''
+            strip_tags: false
+            trim: false
+            preserve_tags: ''
+            html: false
+          element_type: ''
+          element_class: ''
+          element_label_type: ''
+          element_label_class: ''
+          element_label_colon: false
+          element_wrapper_type: ''
+          element_wrapper_class: ''
+          element_default_classes: true
+          empty: ''
+          hide_empty: false
+          empty_zero: false
+          hide_alter_empty: true
+          click_sort_column: value
+          type: list_default
+          settings: {  }
+          group_column: value
+          group_columns: {  }
+          group_rows: true
+          delta_limit: 0
+          delta_offset: 0
+          delta_reversed: false
+          delta_first_last: false
+          multi_type: separator
+          separator: ', '
+          field_api_classes: false
+          plugin_id: field
+        field_service_start_time:
+          id: field_service_start_time
+          table: mass_times__field_service_start_time
+          field: field_service_start_time
+          relationship: reverse__mass_times__field_parish
+          group_type: group
+          admin_label: ''
+          label: ''
+          exclude: false
+          alter:
+            alter_text: false
+            text: ''
+            make_link: false
+            path: ''
+            absolute: false
+            external: false
+            replace_spaces: false
+            path_case: none
+            trim_whitespace: false
+            alt: ''
+            rel: ''
+            link_class: ''
+            prefix: ''
+            suffix: ''
+            target: ''
+            nl2br: false
+            max_length: 0
+            word_boundary: true
+            ellipsis: true
+            more_link: false
+            more_link_text: ''
+            more_link_path: ''
+            strip_tags: false
+            trim: false
+            preserve_tags: ''
+            html: false
+          element_type: ''
+          element_class: ''
+          element_label_type: ''
+          element_label_class: ''
+          element_label_colon: false
+          element_wrapper_type: ''
+          element_wrapper_class: ''
+          element_default_classes: true
+          empty: ''
+          hide_empty: false
+          empty_zero: false
+          hide_alter_empty: true
+          click_sort_column: value
+          type: hms_default_formatter
+          settings:
+            format: 'h:mm'
+            leading_zero: 1
+          group_column: value
+          group_columns: {  }
+          group_rows: true
+          delta_limit: 0
+          delta_offset: 0
+          delta_reversed: false
+          delta_first_last: false
+          multi_type: separator
+          separator: ', '
+          field_api_classes: false
+          plugin_id: field
+      filters:
+        type:
+          id: type
+          table: directory_field_data
+          field: type
+          relationship: none
+          group_type: group
+          admin_label: ''
+          operator: in
+          value:
+            parishes: parishes
+          group: 1
+          exposed: false
+          expose:
+            operator_id: ''
+            label: ''
+            description: ''
+            use_operator: false
+            operator: ''
+            identifier: ''
+            required: false
+            remember: false
+            multiple: false
+            remember_roles:
+              authenticated: authenticated
+            reduce: false
+          is_grouped: false
+          group_info:
+            label: ''
+            description: ''
+            identifier: ''
+            optional: true
+            widget: select
+            multiple: false
+            remember: false
+            default_group: All
+            default_group_multiple: {  }
+            group_items: {  }
+          entity_type: directory
+          entity_field: type
+          plugin_id: bundle
+        field_service_type_value:
+          id: field_service_type_value
+          table: mass_times__field_service_type
+          field: field_service_type_value
+          relationship: reverse__mass_times__field_parish
+          group_type: group
+          admin_label: ''
+          operator: or
+          value:
+            weekend: weekend
+          group: 1
+          exposed: false
+          expose:
+            operator_id: ''
+            label: ''
+            description: ''
+            use_operator: false
+            operator: ''
+            identifier: ''
+            required: false
+            remember: false
+            multiple: false
+            remember_roles:
+              authenticated: authenticated
+            reduce: false
+          is_grouped: false
+          group_info:
+            label: ''
+            description: ''
+            identifier: ''
+            optional: true
+            widget: select
+            multiple: false
+            remember: false
+            default_group: All
+            default_group_multiple: {  }
+            group_items: {  }
+          reduce_duplicates: false
+          plugin_id: list_field
+      filter_groups:
+        operator: AND
+        groups:
+          1: AND
+      sorts:
+        field_geolocation_proximity:
+          proximity_field: field_geolocation_proximity
+          id: field_geolocation_proximity
+          table: directory__field_geolocation
+          field: field_geolocation_proximity
+          relationship: none
+          group_type: group
+          admin_label: ''
+          order: ASC
+          exposed: false
+          expose:
+            label: 'Proximity (field_geolocation)'
+          plugin_id: geolocation_sort_proximity
+        field_name_value:
+          id: field_name_value
+          table: directory__field_name
+          field: field_name_value
+          relationship: none
+          group_type: group
+          admin_label: ''
+          order: ASC
+          exposed: false
+          expose:
+            label: ''
+          plugin_id: standard
+      empty: {  }
+      header: {  }
+      group_by: false
+      exposed_form:
+        type: basic
+        options:
+          submit_button: Find
+          reset_button: true
+          reset_button_label: Reset
+          exposed_sorts_label: 'Sort by'
+          expose_sort_order: true
+          sort_asc_label: Asc
+          sort_desc_label: Desc
+      query:
+        type: views_query
+        options:
+          disable_sql_rewrite: false
+          distinct: false
+          replica: false
+          query_comment: ''
+          query_tags: null
+      relationships:
+        reverse__mass_times__field_parish:
+          id: reverse__mass_times__field_parish
+          table: directory_field_data
+          field: reverse__mass_times__field_parish
+          relationship: none
+          group_type: group
+          admin_label: field_parish
+          required: false
+          entity_type: directory
+          plugin_id: entity_reverse
+      pager:
+        type: none
+        options:
+          offset: 0
+      style:
+        type: default
+        options:
+          grouping:
+            -
+              field: field_service_type
+              rendered: true
+              rendered_strip: false
+            -
+              field: field_day_of_week
+              rendered: true
+              rendered_strip: false
+          row_class: ''
+          default_row_class: true
+      row:
+        type: fields
+        options: {  }
+      arguments:
+        id:
+          id: id
+          table: directory_field_data
+          field: id
+          relationship: none
+          group_type: group
+          admin_label: ''
+          default_action: default
+          exception:
+            value: all
+            title_enable: false
+            title: All
+          title_enable: false
+          title: ''
+          default_argument_type: node
+          default_argument_options: {  }
+          default_argument_skip_url: false
+          summary_options:
+            base_path: ''
+            count: true
+            items_per_page: 25
+            override: false
+          summary:
+            sort_order: asc
+            number_of_records: 0
+            format: default_summary
+          specify_validation: false
+          validate:
+            type: none
+            fail: 'not found'
+          validate_options: {  }
+          break_phrase: false
+          not: false
+          entity_type: directory
+          entity_field: id
+          plugin_id: numeric
+      display_description: ''
+    cache_metadata:
+      max-age: -1
+      contexts:
+        - 'languages:language_content'
+        - 'languages:language_interface'
+        - url
+      tags:
+        - 'config:field.storage.mass_times.field_day_of_week'
+        - 'config:field.storage.mass_times.field_service_start_time'
+        - 'config:field.storage.mass_times.field_service_type'
+  attachment_2:
+    display_plugin: attachment
+    id: attachment_2
+    display_title: 'Week Day Mass Times'
+    position: 3
+    display_options:
+      display_extenders:
+        views_merge_rows: {  }
+      inherit_exposed_filters: true
+      title: 'Service Times'
+      defaults:
+        title: false
+        fields: false
+        filters: false
+        filter_groups: false
+        sorts: false
+        empty: false
+        header: false
+        group_by: false
+        exposed_form: false
+        query: false
+        relationships: false
+        style: false
+        row: false
+        arguments: false
+      fields:
+        field_day_of_week:
+          id: field_day_of_week
+          table: mass_times__field_day_of_week
+          field: field_day_of_week
+          relationship: reverse__mass_times__field_parish
+          group_type: group
+          admin_label: ''
+          label: ''
+          exclude: true
+          alter:
+            alter_text: false
+            text: ''
+            make_link: false
+            path: ''
+            absolute: false
+            external: false
+            replace_spaces: false
+            path_case: none
+            trim_whitespace: false
+            alt: ''
+            rel: ''
+            link_class: ''
+            prefix: ''
+            suffix: ''
+            target: ''
+            nl2br: false
+            max_length: 0
+            word_boundary: true
+            ellipsis: true
+            more_link: false
+            more_link_text: ''
+            more_link_path: ''
+            strip_tags: false
+            trim: false
+            preserve_tags: ''
+            html: false
+          element_type: ''
+          element_class: ''
+          element_label_type: ''
+          element_label_class: ''
+          element_label_colon: false
+          element_wrapper_type: ''
+          element_wrapper_class: ''
+          element_default_classes: true
+          empty: ''
+          hide_empty: false
+          empty_zero: false
+          hide_alter_empty: true
+          click_sort_column: value
+          type: list_default
+          settings: {  }
+          group_column: value
+          group_columns: {  }
+          group_rows: true
+          delta_limit: 0
+          delta_offset: 0
+          delta_reversed: false
+          delta_first_last: false
+          multi_type: separator
+          separator: ', '
+          field_api_classes: false
+          plugin_id: field
+        field_service_type:
+          id: field_service_type
+          table: mass_times__field_service_type
+          field: field_service_type
+          relationship: reverse__mass_times__field_parish
+          group_type: group
+          admin_label: ''
+          label: ''
+          exclude: true
+          alter:
+            alter_text: false
+            text: ''
+            make_link: false
+            path: ''
+            absolute: false
+            external: false
+            replace_spaces: false
+            path_case: none
+            trim_whitespace: false
+            alt: ''
+            rel: ''
+            link_class: ''
+            prefix: ''
+            suffix: ''
+            target: ''
+            nl2br: false
+            max_length: 0
+            word_boundary: true
+            ellipsis: true
+            more_link: false
+            more_link_text: ''
+            more_link_path: ''
+            strip_tags: false
+            trim: false
+            preserve_tags: ''
+            html: false
+          element_type: ''
+          element_class: ''
+          element_label_type: ''
+          element_label_class: ''
+          element_label_colon: false
+          element_wrapper_type: ''
+          element_wrapper_class: ''
+          element_default_classes: true
+          empty: ''
+          hide_empty: false
+          empty_zero: false
+          hide_alter_empty: true
+          click_sort_column: value
+          type: list_default
+          settings: {  }
+          group_column: value
+          group_columns: {  }
+          group_rows: true
+          delta_limit: 0
+          delta_offset: 0
+          delta_reversed: false
+          delta_first_last: false
+          multi_type: separator
+          separator: ', '
+          field_api_classes: false
+          plugin_id: field
+        field_service_start_time:
+          id: field_service_start_time
+          table: mass_times__field_service_start_time
+          field: field_service_start_time
+          relationship: reverse__mass_times__field_parish
+          group_type: group
+          admin_label: ''
+          label: ''
+          exclude: false
+          alter:
+            alter_text: false
+            text: ''
+            make_link: false
+            path: ''
+            absolute: false
+            external: false
+            replace_spaces: false
+            path_case: none
+            trim_whitespace: false
+            alt: ''
+            rel: ''
+            link_class: ''
+            prefix: ''
+            suffix: ''
+            target: ''
+            nl2br: false
+            max_length: 0
+            word_boundary: true
+            ellipsis: true
+            more_link: false
+            more_link_text: ''
+            more_link_path: ''
+            strip_tags: false
+            trim: false
+            preserve_tags: ''
+            html: false
+          element_type: ''
+          element_class: ''
+          element_label_type: ''
+          element_label_class: ''
+          element_label_colon: false
+          element_wrapper_type: ''
+          element_wrapper_class: ''
+          element_default_classes: true
+          empty: ''
+          hide_empty: false
+          empty_zero: false
+          hide_alter_empty: true
+          click_sort_column: value
+          type: hms_default_formatter
+          settings:
+            format: 'h:mm'
+            leading_zero: 1
+          group_column: value
+          group_columns: {  }
+          group_rows: true
+          delta_limit: 0
+          delta_offset: 0
+          delta_reversed: false
+          delta_first_last: false
+          multi_type: separator
+          separator: ', '
+          field_api_classes: false
+          plugin_id: field
+      filters:
+        type:
+          id: type
+          table: directory_field_data
+          field: type
+          relationship: none
+          group_type: group
+          admin_label: ''
+          operator: in
+          value:
+            parishes: parishes
+          group: 1
+          exposed: false
+          expose:
+            operator_id: ''
+            label: ''
+            description: ''
+            use_operator: false
+            operator: ''
+            identifier: ''
+            required: false
+            remember: false
+            multiple: false
+            remember_roles:
+              authenticated: authenticated
+            reduce: false
+          is_grouped: false
+          group_info:
+            label: ''
+            description: ''
+            identifier: ''
+            optional: true
+            widget: select
+            multiple: false
+            remember: false
+            default_group: All
+            default_group_multiple: {  }
+            group_items: {  }
+          entity_type: directory
+          entity_field: type
+          plugin_id: bundle
+        field_service_type_value:
+          id: field_service_type_value
+          table: mass_times__field_service_type
+          field: field_service_type_value
+          relationship: reverse__mass_times__field_parish
+          group_type: group
+          admin_label: ''
+          operator: or
+          value:
+            week_day: week_day
+          group: 1
+          exposed: false
+          expose:
+            operator_id: ''
+            label: ''
+            description: ''
+            use_operator: false
+            operator: ''
+            identifier: ''
+            required: false
+            remember: false
+            multiple: false
+            remember_roles:
+              authenticated: authenticated
+            reduce: false
+          is_grouped: false
+          group_info:
+            label: ''
+            description: ''
+            identifier: ''
+            optional: true
+            widget: select
+            multiple: false
+            remember: false
+            default_group: All
+            default_group_multiple: {  }
+            group_items: {  }
+          reduce_duplicates: false
+          plugin_id: list_field
+      filter_groups:
+        operator: AND
+        groups:
+          1: AND
+      sorts:
+        field_geolocation_proximity:
+          proximity_field: field_geolocation_proximity
+          id: field_geolocation_proximity
+          table: directory__field_geolocation
+          field: field_geolocation_proximity
+          relationship: none
+          group_type: group
+          admin_label: ''
+          order: ASC
+          exposed: false
+          expose:
+            label: 'Proximity (field_geolocation)'
+          plugin_id: geolocation_sort_proximity
+        field_name_value:
+          id: field_name_value
+          table: directory__field_name
+          field: field_name_value
+          relationship: none
+          group_type: group
+          admin_label: ''
+          order: ASC
+          exposed: false
+          expose:
+            label: ''
+          plugin_id: standard
+      empty: {  }
+      header: {  }
+      group_by: false
+      exposed_form:
+        type: basic
+        options:
+          submit_button: Find
+          reset_button: true
+          reset_button_label: Reset
+          exposed_sorts_label: 'Sort by'
+          expose_sort_order: true
+          sort_asc_label: Asc
+          sort_desc_label: Desc
+      query:
+        type: views_query
+        options:
+          disable_sql_rewrite: false
+          distinct: false
+          replica: false
+          query_comment: ''
+          query_tags: null
+      relationships:
+        reverse__mass_times__field_parish:
+          id: reverse__mass_times__field_parish
+          table: directory_field_data
+          field: reverse__mass_times__field_parish
+          relationship: none
+          group_type: group
+          admin_label: field_parish
+          required: false
+          entity_type: directory
+          plugin_id: entity_reverse
+      pager:
+        type: none
+        options:
+          offset: 0
+      style:
+        type: default
+        options:
+          grouping:
+            -
+              field: field_service_type
+              rendered: true
+              rendered_strip: false
+            -
+              field: field_day_of_week
+              rendered: true
+              rendered_strip: false
+          row_class: ''
+          default_row_class: true
+      row:
+        type: fields
+        options: {  }
+      arguments:
+        id:
+          id: id
+          table: directory_field_data
+          field: id
+          relationship: none
+          group_type: group
+          admin_label: ''
+          default_action: default
+          exception:
+            value: all
+            title_enable: false
+            title: All
+          title_enable: false
+          title: ''
+          default_argument_type: node
+          default_argument_options: {  }
+          default_argument_skip_url: false
+          summary_options:
+            base_path: ''
+            count: true
+            items_per_page: 25
+            override: false
+          summary:
+            sort_order: asc
+            number_of_records: 0
+            format: default_summary
+          specify_validation: false
+          validate:
+            type: none
+            fail: 'not found'
+          validate_options: {  }
+          break_phrase: false
+          not: false
+          entity_type: directory
+          entity_field: id
+          plugin_id: numeric
+      display_description: ''
+    cache_metadata:
+      max-age: -1
+      contexts:
+        - 'languages:language_content'
+        - 'languages:language_interface'
+        - url
+      tags:
+        - 'config:field.storage.mass_times.field_day_of_week'
+        - 'config:field.storage.mass_times.field_service_start_time'
+        - 'config:field.storage.mass_times.field_service_type'
+  attachment_3:
+    display_plugin: attachment
+    id: attachment_3
+    display_title: 'Holy Day Vigil Mass Times'
+    position: 3
+    display_options:
+      display_extenders:
+        views_merge_rows: {  }
+      inherit_exposed_filters: true
+      title: 'Service Times'
+      defaults:
+        title: false
+        fields: false
+        filters: false
+        filter_groups: false
+        sorts: false
+        empty: false
+        header: false
+        group_by: false
+        exposed_form: false
+        query: false
+        relationships: false
+        style: false
+        row: false
+        arguments: false
+      fields:
+        field_day_of_week:
+          id: field_day_of_week
+          table: mass_times__field_day_of_week
+          field: field_day_of_week
+          relationship: reverse__mass_times__field_parish
+          group_type: group
+          admin_label: ''
+          label: ''
+          exclude: true
+          alter:
+            alter_text: false
+            text: ''
+            make_link: false
+            path: ''
+            absolute: false
+            external: false
+            replace_spaces: false
+            path_case: none
+            trim_whitespace: false
+            alt: ''
+            rel: ''
+            link_class: ''
+            prefix: ''
+            suffix: ''
+            target: ''
+            nl2br: false
+            max_length: 0
+            word_boundary: true
+            ellipsis: true
+            more_link: false
+            more_link_text: ''
+            more_link_path: ''
+            strip_tags: false
+            trim: false
+            preserve_tags: ''
+            html: false
+          element_type: ''
+          element_class: ''
+          element_label_type: ''
+          element_label_class: ''
+          element_label_colon: false
+          element_wrapper_type: ''
+          element_wrapper_class: ''
+          element_default_classes: true
+          empty: ''
+          hide_empty: false
+          empty_zero: false
+          hide_alter_empty: true
+          click_sort_column: value
+          type: list_default
+          settings: {  }
+          group_column: value
+          group_columns: {  }
+          group_rows: true
+          delta_limit: 0
+          delta_offset: 0
+          delta_reversed: false
+          delta_first_last: false
+          multi_type: separator
+          separator: ', '
+          field_api_classes: false
+          plugin_id: field
+        field_service_type:
+          id: field_service_type
+          table: mass_times__field_service_type
+          field: field_service_type
+          relationship: reverse__mass_times__field_parish
+          group_type: group
+          admin_label: ''
+          label: ''
+          exclude: true
+          alter:
+            alter_text: false
+            text: ''
+            make_link: false
+            path: ''
+            absolute: false
+            external: false
+            replace_spaces: false
+            path_case: none
+            trim_whitespace: false
+            alt: ''
+            rel: ''
+            link_class: ''
+            prefix: ''
+            suffix: ''
+            target: ''
+            nl2br: false
+            max_length: 0
+            word_boundary: true
+            ellipsis: true
+            more_link: false
+            more_link_text: ''
+            more_link_path: ''
+            strip_tags: false
+            trim: false
+            preserve_tags: ''
+            html: false
+          element_type: ''
+          element_class: ''
+          element_label_type: ''
+          element_label_class: ''
+          element_label_colon: false
+          element_wrapper_type: ''
+          element_wrapper_class: ''
+          element_default_classes: true
+          empty: ''
+          hide_empty: false
+          empty_zero: false
+          hide_alter_empty: true
+          click_sort_column: value
+          type: list_default
+          settings: {  }
+          group_column: value
+          group_columns: {  }
+          group_rows: true
+          delta_limit: 0
+          delta_offset: 0
+          delta_reversed: false
+          delta_first_last: false
+          multi_type: separator
+          separator: ', '
+          field_api_classes: false
+          plugin_id: field
+        field_service_start_time:
+          id: field_service_start_time
+          table: mass_times__field_service_start_time
+          field: field_service_start_time
+          relationship: reverse__mass_times__field_parish
+          group_type: group
+          admin_label: ''
+          label: ''
+          exclude: false
+          alter:
+            alter_text: false
+            text: ''
+            make_link: false
+            path: ''
+            absolute: false
+            external: false
+            replace_spaces: false
+            path_case: none
+            trim_whitespace: false
+            alt: ''
+            rel: ''
+            link_class: ''
+            prefix: ''
+            suffix: ''
+            target: ''
+            nl2br: false
+            max_length: 0
+            word_boundary: true
+            ellipsis: true
+            more_link: false
+            more_link_text: ''
+            more_link_path: ''
+            strip_tags: false
+            trim: false
+            preserve_tags: ''
+            html: false
+          element_type: ''
+          element_class: ''
+          element_label_type: ''
+          element_label_class: ''
+          element_label_colon: false
+          element_wrapper_type: ''
+          element_wrapper_class: ''
+          element_default_classes: true
+          empty: ''
+          hide_empty: false
+          empty_zero: false
+          hide_alter_empty: true
+          click_sort_column: value
+          type: hms_default_formatter
+          settings:
+            format: 'h:mm'
+            leading_zero: 1
+          group_column: value
+          group_columns: {  }
+          group_rows: true
+          delta_limit: 0
+          delta_offset: 0
+          delta_reversed: false
+          delta_first_last: false
+          multi_type: separator
+          separator: ', '
+          field_api_classes: false
+          plugin_id: field
+      filters:
+        type:
+          id: type
+          table: directory_field_data
+          field: type
+          relationship: none
+          group_type: group
+          admin_label: ''
+          operator: in
+          value:
+            parishes: parishes
+          group: 1
+          exposed: false
+          expose:
+            operator_id: ''
+            label: ''
+            description: ''
+            use_operator: false
+            operator: ''
+            identifier: ''
+            required: false
+            remember: false
+            multiple: false
+            remember_roles:
+              authenticated: authenticated
+            reduce: false
+          is_grouped: false
+          group_info:
+            label: ''
+            description: ''
+            identifier: ''
+            optional: true
+            widget: select
+            multiple: false
+            remember: false
+            default_group: All
+            default_group_multiple: {  }
+            group_items: {  }
+          entity_type: directory
+          entity_field: type
+          plugin_id: bundle
+        field_service_type_value:
+          id: field_service_type_value
+          table: mass_times__field_service_type
+          field: field_service_type_value
+          relationship: reverse__mass_times__field_parish
+          group_type: group
+          admin_label: ''
+          operator: or
+          value:
+            vigil_holy_days: vigil_holy_days
+          group: 1
+          exposed: false
+          expose:
+            operator_id: ''
+            label: ''
+            description: ''
+            use_operator: false
+            operator: ''
+            identifier: ''
+            required: false
+            remember: false
+            multiple: false
+            remember_roles:
+              authenticated: authenticated
+            reduce: false
+          is_grouped: false
+          group_info:
+            label: ''
+            description: ''
+            identifier: ''
+            optional: true
+            widget: select
+            multiple: false
+            remember: false
+            default_group: All
+            default_group_multiple: {  }
+            group_items: {  }
+          reduce_duplicates: false
+          plugin_id: list_field
+      filter_groups:
+        operator: AND
+        groups:
+          1: AND
+      sorts:
+        field_geolocation_proximity:
+          proximity_field: field_geolocation_proximity
+          id: field_geolocation_proximity
+          table: directory__field_geolocation
+          field: field_geolocation_proximity
+          relationship: none
+          group_type: group
+          admin_label: ''
+          order: ASC
+          exposed: false
+          expose:
+            label: 'Proximity (field_geolocation)'
+          plugin_id: geolocation_sort_proximity
+        field_name_value:
+          id: field_name_value
+          table: directory__field_name
+          field: field_name_value
+          relationship: none
+          group_type: group
+          admin_label: ''
+          order: ASC
+          exposed: false
+          expose:
+            label: ''
+          plugin_id: standard
+      empty: {  }
+      header: {  }
+      group_by: false
+      exposed_form:
+        type: basic
+        options:
+          submit_button: Find
+          reset_button: true
+          reset_button_label: Reset
+          exposed_sorts_label: 'Sort by'
+          expose_sort_order: true
+          sort_asc_label: Asc
+          sort_desc_label: Desc
+      query:
+        type: views_query
+        options:
+          disable_sql_rewrite: false
+          distinct: false
+          replica: false
+          query_comment: ''
+          query_tags: null
+      relationships:
+        reverse__mass_times__field_parish:
+          id: reverse__mass_times__field_parish
+          table: directory_field_data
+          field: reverse__mass_times__field_parish
+          relationship: none
+          group_type: group
+          admin_label: field_parish
+          required: false
+          entity_type: directory
+          plugin_id: entity_reverse
+      pager:
+        type: none
+        options:
+          offset: 0
+      style:
+        type: default
+        options:
+          grouping:
+            -
+              field: field_service_type
+              rendered: true
+              rendered_strip: false
+            -
+              field: field_day_of_week
+              rendered: true
+              rendered_strip: false
+          row_class: ''
+          default_row_class: true
+      row:
+        type: fields
+        options: {  }
+      arguments:
+        id:
+          id: id
+          table: directory_field_data
+          field: id
+          relationship: none
+          group_type: group
+          admin_label: ''
+          default_action: default
+          exception:
+            value: all
+            title_enable: false
+            title: All
+          title_enable: false
+          title: ''
+          default_argument_type: node
+          default_argument_options: {  }
+          default_argument_skip_url: false
+          summary_options:
+            base_path: ''
+            count: true
+            items_per_page: 25
+            override: false
+          summary:
+            sort_order: asc
+            number_of_records: 0
+            format: default_summary
+          specify_validation: false
+          validate:
+            type: none
+            fail: 'not found'
+          validate_options: {  }
+          break_phrase: false
+          not: false
+          entity_type: directory
+          entity_field: id
+          plugin_id: numeric
+      display_description: ''
+    cache_metadata:
+      max-age: -1
+      contexts:
+        - 'languages:language_content'
+        - 'languages:language_interface'
+        - url
+      tags:
+        - 'config:field.storage.mass_times.field_day_of_week'
+        - 'config:field.storage.mass_times.field_service_start_time'
+        - 'config:field.storage.mass_times.field_service_type'
+  attachment_4:
+    display_plugin: attachment
+    id: attachment_4
+    display_title: 'Holy Day Mass Times'
+    position: 3
+    display_options:
+      display_extenders:
+        views_merge_rows: {  }
+      inherit_exposed_filters: true
+      title: 'Service Times'
+      defaults:
+        title: false
+        fields: false
+        filters: false
+        filter_groups: false
+        sorts: false
+        empty: false
+        header: false
+        group_by: false
+        exposed_form: false
+        query: false
+        relationships: false
+        style: false
+        row: false
+        arguments: false
+      fields:
+        field_day_of_week:
+          id: field_day_of_week
+          table: mass_times__field_day_of_week
+          field: field_day_of_week
+          relationship: reverse__mass_times__field_parish
+          group_type: group
+          admin_label: ''
+          label: ''
+          exclude: true
+          alter:
+            alter_text: false
+            text: ''
+            make_link: false
+            path: ''
+            absolute: false
+            external: false
+            replace_spaces: false
+            path_case: none
+            trim_whitespace: false
+            alt: ''
+            rel: ''
+            link_class: ''
+            prefix: ''
+            suffix: ''
+            target: ''
+            nl2br: false
+            max_length: 0
+            word_boundary: true
+            ellipsis: true
+            more_link: false
+            more_link_text: ''
+            more_link_path: ''
+            strip_tags: false
+            trim: false
+            preserve_tags: ''
+            html: false
+          element_type: ''
+          element_class: ''
+          element_label_type: ''
+          element_label_class: ''
+          element_label_colon: false
+          element_wrapper_type: ''
+          element_wrapper_class: ''
+          element_default_classes: true
+          empty: ''
+          hide_empty: false
+          empty_zero: false
+          hide_alter_empty: true
+          click_sort_column: value
+          type: list_default
+          settings: {  }
+          group_column: value
+          group_columns: {  }
+          group_rows: true
+          delta_limit: 0
+          delta_offset: 0
+          delta_reversed: false
+          delta_first_last: false
+          multi_type: separator
+          separator: ', '
+          field_api_classes: false
+          plugin_id: field
+        field_service_type:
+          id: field_service_type
+          table: mass_times__field_service_type
+          field: field_service_type
+          relationship: reverse__mass_times__field_parish
+          group_type: group
+          admin_label: ''
+          label: ''
+          exclude: true
+          alter:
+            alter_text: false
+            text: ''
+            make_link: false
+            path: ''
+            absolute: false
+            external: false
+            replace_spaces: false
+            path_case: none
+            trim_whitespace: false
+            alt: ''
+            rel: ''
+            link_class: ''
+            prefix: ''
+            suffix: ''
+            target: ''
+            nl2br: false
+            max_length: 0
+            word_boundary: true
+            ellipsis: true
+            more_link: false
+            more_link_text: ''
+            more_link_path: ''
+            strip_tags: false
+            trim: false
+            preserve_tags: ''
+            html: false
+          element_type: ''
+          element_class: ''
+          element_label_type: ''
+          element_label_class: ''
+          element_label_colon: false
+          element_wrapper_type: ''
+          element_wrapper_class: ''
+          element_default_classes: true
+          empty: ''
+          hide_empty: false
+          empty_zero: false
+          hide_alter_empty: true
+          click_sort_column: value
+          type: list_default
+          settings: {  }
+          group_column: value
+          group_columns: {  }
+          group_rows: true
+          delta_limit: 0
+          delta_offset: 0
+          delta_reversed: false
+          delta_first_last: false
+          multi_type: separator
+          separator: ', '
+          field_api_classes: false
+          plugin_id: field
+        field_service_start_time:
+          id: field_service_start_time
+          table: mass_times__field_service_start_time
+          field: field_service_start_time
+          relationship: reverse__mass_times__field_parish
+          group_type: group
+          admin_label: ''
+          label: ''
+          exclude: false
+          alter:
+            alter_text: false
+            text: ''
+            make_link: false
+            path: ''
+            absolute: false
+            external: false
+            replace_spaces: false
+            path_case: none
+            trim_whitespace: false
+            alt: ''
+            rel: ''
+            link_class: ''
+            prefix: ''
+            suffix: ''
+            target: ''
+            nl2br: false
+            max_length: 0
+            word_boundary: true
+            ellipsis: true
+            more_link: false
+            more_link_text: ''
+            more_link_path: ''
+            strip_tags: false
+            trim: false
+            preserve_tags: ''
+            html: false
+          element_type: ''
+          element_class: ''
+          element_label_type: ''
+          element_label_class: ''
+          element_label_colon: false
+          element_wrapper_type: ''
+          element_wrapper_class: ''
+          element_default_classes: true
+          empty: ''
+          hide_empty: false
+          empty_zero: false
+          hide_alter_empty: true
+          click_sort_column: value
+          type: hms_default_formatter
+          settings:
+            format: 'h:mm'
+            leading_zero: 1
+          group_column: value
+          group_columns: {  }
+          group_rows: true
+          delta_limit: 0
+          delta_offset: 0
+          delta_reversed: false
+          delta_first_last: false
+          multi_type: separator
+          separator: ', '
+          field_api_classes: false
+          plugin_id: field
+      filters:
+        type:
+          id: type
+          table: directory_field_data
+          field: type
+          relationship: none
+          group_type: group
+          admin_label: ''
+          operator: in
+          value:
+            parishes: parishes
+          group: 1
+          exposed: false
+          expose:
+            operator_id: ''
+            label: ''
+            description: ''
+            use_operator: false
+            operator: ''
+            identifier: ''
+            required: false
+            remember: false
+            multiple: false
+            remember_roles:
+              authenticated: authenticated
+            reduce: false
+          is_grouped: false
+          group_info:
+            label: ''
+            description: ''
+            identifier: ''
+            optional: true
+            widget: select
+            multiple: false
+            remember: false
+            default_group: All
+            default_group_multiple: {  }
+            group_items: {  }
+          entity_type: directory
+          entity_field: type
+          plugin_id: bundle
+        field_service_type_value:
+          id: field_service_type_value
+          table: mass_times__field_service_type
+          field: field_service_type_value
+          relationship: reverse__mass_times__field_parish
+          group_type: group
+          admin_label: ''
+          operator: or
+          value:
+            holy_days: holy_days
+          group: 1
+          exposed: false
+          expose:
+            operator_id: ''
+            label: ''
+            description: ''
+            use_operator: false
+            operator: ''
+            identifier: ''
+            required: false
+            remember: false
+            multiple: false
+            remember_roles:
+              authenticated: authenticated
+            reduce: false
+          is_grouped: false
+          group_info:
+            label: ''
+            description: ''
+            identifier: ''
+            optional: true
+            widget: select
+            multiple: false
+            remember: false
+            default_group: All
+            default_group_multiple: {  }
+            group_items: {  }
+          reduce_duplicates: false
+          plugin_id: list_field
+      filter_groups:
+        operator: AND
+        groups:
+          1: AND
+      sorts:
+        field_geolocation_proximity:
+          proximity_field: field_geolocation_proximity
+          id: field_geolocation_proximity
+          table: directory__field_geolocation
+          field: field_geolocation_proximity
+          relationship: none
+          group_type: group
+          admin_label: ''
+          order: ASC
+          exposed: false
+          expose:
+            label: 'Proximity (field_geolocation)'
+          plugin_id: geolocation_sort_proximity
+        field_name_value:
+          id: field_name_value
+          table: directory__field_name
+          field: field_name_value
+          relationship: none
+          group_type: group
+          admin_label: ''
+          order: ASC
+          exposed: false
+          expose:
+            label: ''
+          plugin_id: standard
+      empty: {  }
+      header: {  }
+      group_by: false
+      exposed_form:
+        type: basic
+        options:
+          submit_button: Find
+          reset_button: true
+          reset_button_label: Reset
+          exposed_sorts_label: 'Sort by'
+          expose_sort_order: true
+          sort_asc_label: Asc
+          sort_desc_label: Desc
+      query:
+        type: views_query
+        options:
+          disable_sql_rewrite: false
+          distinct: false
+          replica: false
+          query_comment: ''
+          query_tags: null
+      relationships:
+        reverse__mass_times__field_parish:
+          id: reverse__mass_times__field_parish
+          table: directory_field_data
+          field: reverse__mass_times__field_parish
+          relationship: none
+          group_type: group
+          admin_label: field_parish
+          required: false
+          entity_type: directory
+          plugin_id: entity_reverse
+      pager:
+        type: none
+        options:
+          offset: 0
+      style:
+        type: default
+        options:
+          grouping:
+            -
+              field: field_service_type
+              rendered: true
+              rendered_strip: false
+            -
+              field: field_day_of_week
+              rendered: true
+              rendered_strip: false
+          row_class: ''
+          default_row_class: true
+      row:
+        type: fields
+        options: {  }
+      arguments:
+        id:
+          id: id
+          table: directory_field_data
+          field: id
+          relationship: none
+          group_type: group
+          admin_label: ''
+          default_action: default
+          exception:
+            value: all
+            title_enable: false
+            title: All
+          title_enable: false
+          title: ''
+          default_argument_type: node
+          default_argument_options: {  }
+          default_argument_skip_url: false
+          summary_options:
+            base_path: ''
+            count: true
+            items_per_page: 25
+            override: false
+          summary:
+            sort_order: asc
+            number_of_records: 0
+            format: default_summary
+          specify_validation: false
+          validate:
+            type: none
+            fail: 'not found'
+          validate_options: {  }
+          break_phrase: false
+          not: false
+          entity_type: directory
+          entity_field: id
+          plugin_id: numeric
+      display_description: ''
+    cache_metadata:
+      max-age: -1
+      contexts:
+        - 'languages:language_content'
+        - 'languages:language_interface'
+        - url
+      tags:
+        - 'config:field.storage.mass_times.field_day_of_week'
+        - 'config:field.storage.mass_times.field_service_start_time'
+        - 'config:field.storage.mass_times.field_service_type'
+  attachment_5:
+    display_plugin: attachment
+    id: attachment_5
+    display_title: 'Confession Times'
+    position: 3
+    display_options:
+      display_extenders:
+        views_merge_rows: {  }
+      inherit_exposed_filters: true
+      title: 'Service Times'
+      defaults:
+        title: false
+        fields: false
+        filters: false
+        filter_groups: false
+        sorts: false
+        empty: false
+        header: false
+        group_by: false
+        exposed_form: false
+        query: false
+        relationships: false
+        style: false
+        row: false
+        arguments: false
+      fields:
+        field_day_of_week:
+          id: field_day_of_week
+          table: mass_times__field_day_of_week
+          field: field_day_of_week
+          relationship: reverse__mass_times__field_parish
+          group_type: group
+          admin_label: ''
+          label: ''
+          exclude: true
+          alter:
+            alter_text: false
+            text: ''
+            make_link: false
+            path: ''
+            absolute: false
+            external: false
+            replace_spaces: false
+            path_case: none
+            trim_whitespace: false
+            alt: ''
+            rel: ''
+            link_class: ''
+            prefix: ''
+            suffix: ''
+            target: ''
+            nl2br: false
+            max_length: 0
+            word_boundary: true
+            ellipsis: true
+            more_link: false
+            more_link_text: ''
+            more_link_path: ''
+            strip_tags: false
+            trim: false
+            preserve_tags: ''
+            html: false
+          element_type: ''
+          element_class: ''
+          element_label_type: ''
+          element_label_class: ''
+          element_label_colon: false
+          element_wrapper_type: ''
+          element_wrapper_class: ''
+          element_default_classes: true
+          empty: ''
+          hide_empty: false
+          empty_zero: false
+          hide_alter_empty: true
+          click_sort_column: value
+          type: list_default
+          settings: {  }
+          group_column: value
+          group_columns: {  }
+          group_rows: true
+          delta_limit: 0
+          delta_offset: 0
+          delta_reversed: false
+          delta_first_last: false
+          multi_type: separator
+          separator: ', '
+          field_api_classes: false
+          plugin_id: field
+        field_service_type:
+          id: field_service_type
+          table: mass_times__field_service_type
+          field: field_service_type
+          relationship: reverse__mass_times__field_parish
+          group_type: group
+          admin_label: ''
+          label: ''
+          exclude: true
+          alter:
+            alter_text: false
+            text: ''
+            make_link: false
+            path: ''
+            absolute: false
+            external: false
+            replace_spaces: false
+            path_case: none
+            trim_whitespace: false
+            alt: ''
+            rel: ''
+            link_class: ''
+            prefix: ''
+            suffix: ''
+            target: ''
+            nl2br: false
+            max_length: 0
+            word_boundary: true
+            ellipsis: true
+            more_link: false
+            more_link_text: ''
+            more_link_path: ''
+            strip_tags: false
+            trim: false
+            preserve_tags: ''
+            html: false
+          element_type: ''
+          element_class: ''
+          element_label_type: ''
+          element_label_class: ''
+          element_label_colon: false
+          element_wrapper_type: ''
+          element_wrapper_class: ''
+          element_default_classes: true
+          empty: ''
+          hide_empty: false
+          empty_zero: false
+          hide_alter_empty: true
+          click_sort_column: value
+          type: list_default
+          settings: {  }
+          group_column: value
+          group_columns: {  }
+          group_rows: true
+          delta_limit: 0
+          delta_offset: 0
+          delta_reversed: false
+          delta_first_last: false
+          multi_type: separator
+          separator: ', '
+          field_api_classes: false
+          plugin_id: field
+        field_service_start_time:
+          id: field_service_start_time
+          table: mass_times__field_service_start_time
+          field: field_service_start_time
+          relationship: reverse__mass_times__field_parish
+          group_type: group
+          admin_label: ''
+          label: ''
+          exclude: false
+          alter:
+            alter_text: false
+            text: ''
+            make_link: false
+            path: ''
+            absolute: false
+            external: false
+            replace_spaces: false
+            path_case: none
+            trim_whitespace: false
+            alt: ''
+            rel: ''
+            link_class: ''
+            prefix: ''
+            suffix: ''
+            target: ''
+            nl2br: false
+            max_length: 0
+            word_boundary: true
+            ellipsis: true
+            more_link: false
+            more_link_text: ''
+            more_link_path: ''
+            strip_tags: false
+            trim: false
+            preserve_tags: ''
+            html: false
+          element_type: ''
+          element_class: ''
+          element_label_type: ''
+          element_label_class: ''
+          element_label_colon: false
+          element_wrapper_type: ''
+          element_wrapper_class: ''
+          element_default_classes: true
+          empty: ''
+          hide_empty: false
+          empty_zero: false
+          hide_alter_empty: true
+          click_sort_column: value
+          type: hms_default_formatter
+          settings:
+            format: 'h:mm'
+            leading_zero: 1
+          group_column: value
+          group_columns: {  }
+          group_rows: true
+          delta_limit: 0
+          delta_offset: 0
+          delta_reversed: false
+          delta_first_last: false
+          multi_type: separator
+          separator: ', '
+          field_api_classes: false
+          plugin_id: field
+      filters:
+        type:
+          id: type
+          table: directory_field_data
+          field: type
+          relationship: none
+          group_type: group
+          admin_label: ''
+          operator: in
+          value:
+            parishes: parishes
+          group: 1
+          exposed: false
+          expose:
+            operator_id: ''
+            label: ''
+            description: ''
+            use_operator: false
+            operator: ''
+            identifier: ''
+            required: false
+            remember: false
+            multiple: false
+            remember_roles:
+              authenticated: authenticated
+            reduce: false
+          is_grouped: false
+          group_info:
+            label: ''
+            description: ''
+            identifier: ''
+            optional: true
+            widget: select
+            multiple: false
+            remember: false
+            default_group: All
+            default_group_multiple: {  }
+            group_items: {  }
+          entity_type: directory
+          entity_field: type
+          plugin_id: bundle
+        field_service_type_value:
+          id: field_service_type_value
+          table: mass_times__field_service_type
+          field: field_service_type_value
+          relationship: reverse__mass_times__field_parish
+          group_type: group
+          admin_label: ''
+          operator: or
+          value:
+            confession: confession
+          group: 1
+          exposed: false
+          expose:
+            operator_id: ''
+            label: ''
+            description: ''
+            use_operator: false
+            operator: ''
+            identifier: ''
+            required: false
+            remember: false
+            multiple: false
+            remember_roles:
+              authenticated: authenticated
+            reduce: false
+          is_grouped: false
+          group_info:
+            label: ''
+            description: ''
+            identifier: ''
+            optional: true
+            widget: select
+            multiple: false
+            remember: false
+            default_group: All
+            default_group_multiple: {  }
+            group_items: {  }
+          reduce_duplicates: false
+          plugin_id: list_field
+      filter_groups:
+        operator: AND
+        groups:
+          1: AND
+      sorts:
+        field_geolocation_proximity:
+          proximity_field: field_geolocation_proximity
+          id: field_geolocation_proximity
+          table: directory__field_geolocation
+          field: field_geolocation_proximity
+          relationship: none
+          group_type: group
+          admin_label: ''
+          order: ASC
+          exposed: false
+          expose:
+            label: 'Proximity (field_geolocation)'
+          plugin_id: geolocation_sort_proximity
+        field_name_value:
+          id: field_name_value
+          table: directory__field_name
+          field: field_name_value
+          relationship: none
+          group_type: group
+          admin_label: ''
+          order: ASC
+          exposed: false
+          expose:
+            label: ''
+          plugin_id: standard
+      empty: {  }
+      header: {  }
+      group_by: false
+      exposed_form:
+        type: basic
+        options:
+          submit_button: Find
+          reset_button: true
+          reset_button_label: Reset
+          exposed_sorts_label: 'Sort by'
+          expose_sort_order: true
+          sort_asc_label: Asc
+          sort_desc_label: Desc
+      query:
+        type: views_query
+        options:
+          disable_sql_rewrite: false
+          distinct: false
+          replica: false
+          query_comment: ''
+          query_tags: null
+      relationships:
+        reverse__mass_times__field_parish:
+          id: reverse__mass_times__field_parish
+          table: directory_field_data
+          field: reverse__mass_times__field_parish
+          relationship: none
+          group_type: group
+          admin_label: field_parish
+          required: false
+          entity_type: directory
+          plugin_id: entity_reverse
+      pager:
+        type: none
+        options:
+          offset: 0
+      style:
+        type: default
+        options:
+          grouping:
+            -
+              field: field_service_type
+              rendered: true
+              rendered_strip: false
+            -
+              field: field_day_of_week
+              rendered: true
+              rendered_strip: false
+          row_class: ''
+          default_row_class: true
+      row:
+        type: fields
+        options: {  }
+      arguments:
+        id:
+          id: id
+          table: directory_field_data
+          field: id
+          relationship: none
+          group_type: group
+          admin_label: ''
+          default_action: default
+          exception:
+            value: all
+            title_enable: false
+            title: All
+          title_enable: false
+          title: ''
+          default_argument_type: node
+          default_argument_options: {  }
+          default_argument_skip_url: false
+          summary_options:
+            base_path: ''
+            count: true
+            items_per_page: 25
+            override: false
+          summary:
+            sort_order: asc
+            number_of_records: 0
+            format: default_summary
+          specify_validation: false
+          validate:
+            type: none
+            fail: 'not found'
+          validate_options: {  }
+          break_phrase: false
+          not: false
+          entity_type: directory
+          entity_field: id
+          plugin_id: numeric
+      display_description: ''
+    cache_metadata:
+      max-age: -1
+      contexts:
+        - 'languages:language_content'
+        - 'languages:language_interface'
+        - url
+      tags:
+        - 'config:field.storage.mass_times.field_day_of_week'
+        - 'config:field.storage.mass_times.field_service_start_time'
+        - 'config:field.storage.mass_times.field_service_type'
+  attachment_6:
+    display_plugin: attachment
+    id: attachment_6
+    display_title: 'Adoration Times'
+    position: 3
+    display_options:
+      display_extenders:
+        views_merge_rows: {  }
+      inherit_exposed_filters: true
+      title: 'Service Times'
+      defaults:
+        title: false
+        fields: false
+        filters: false
+        filter_groups: false
+        sorts: false
+        empty: false
+        header: false
+        group_by: false
+        exposed_form: false
+        query: false
+        relationships: false
+        style: false
+        row: false
+        arguments: false
+      fields:
+        field_day_of_week:
+          id: field_day_of_week
+          table: mass_times__field_day_of_week
+          field: field_day_of_week
+          relationship: reverse__mass_times__field_parish
+          group_type: group
+          admin_label: ''
+          label: ''
+          exclude: true
+          alter:
+            alter_text: false
+            text: ''
+            make_link: false
+            path: ''
+            absolute: false
+            external: false
+            replace_spaces: false
+            path_case: none
+            trim_whitespace: false
+            alt: ''
+            rel: ''
+            link_class: ''
+            prefix: ''
+            suffix: ''
+            target: ''
+            nl2br: false
+            max_length: 0
+            word_boundary: true
+            ellipsis: true
+            more_link: false
+            more_link_text: ''
+            more_link_path: ''
+            strip_tags: false
+            trim: false
+            preserve_tags: ''
+            html: false
+          element_type: ''
+          element_class: ''
+          element_label_type: ''
+          element_label_class: ''
+          element_label_colon: false
+          element_wrapper_type: ''
+          element_wrapper_class: ''
+          element_default_classes: true
+          empty: ''
+          hide_empty: false
+          empty_zero: false
+          hide_alter_empty: true
+          click_sort_column: value
+          type: list_default
+          settings: {  }
+          group_column: value
+          group_columns: {  }
+          group_rows: true
+          delta_limit: 0
+          delta_offset: 0
+          delta_reversed: false
+          delta_first_last: false
+          multi_type: separator
+          separator: ', '
+          field_api_classes: false
+          plugin_id: field
+        field_service_type:
+          id: field_service_type
+          table: mass_times__field_service_type
+          field: field_service_type
+          relationship: reverse__mass_times__field_parish
+          group_type: group
+          admin_label: ''
+          label: ''
+          exclude: true
+          alter:
+            alter_text: false
+            text: ''
+            make_link: false
+            path: ''
+            absolute: false
+            external: false
+            replace_spaces: false
+            path_case: none
+            trim_whitespace: false
+            alt: ''
+            rel: ''
+            link_class: ''
+            prefix: ''
+            suffix: ''
+            target: ''
+            nl2br: false
+            max_length: 0
+            word_boundary: true
+            ellipsis: true
+            more_link: false
+            more_link_text: ''
+            more_link_path: ''
+            strip_tags: false
+            trim: false
+            preserve_tags: ''
+            html: false
+          element_type: ''
+          element_class: ''
+          element_label_type: ''
+          element_label_class: ''
+          element_label_colon: false
+          element_wrapper_type: ''
+          element_wrapper_class: ''
+          element_default_classes: true
+          empty: ''
+          hide_empty: false
+          empty_zero: false
+          hide_alter_empty: true
+          click_sort_column: value
+          type: list_default
+          settings: {  }
+          group_column: value
+          group_columns: {  }
+          group_rows: true
+          delta_limit: 0
+          delta_offset: 0
+          delta_reversed: false
+          delta_first_last: false
+          multi_type: separator
+          separator: ', '
+          field_api_classes: false
+          plugin_id: field
+        field_service_start_time:
+          id: field_service_start_time
+          table: mass_times__field_service_start_time
+          field: field_service_start_time
+          relationship: reverse__mass_times__field_parish
+          group_type: group
+          admin_label: ''
+          label: ''
+          exclude: false
+          alter:
+            alter_text: false
+            text: ''
+            make_link: false
+            path: ''
+            absolute: false
+            external: false
+            replace_spaces: false
+            path_case: none
+            trim_whitespace: false
+            alt: ''
+            rel: ''
+            link_class: ''
+            prefix: ''
+            suffix: ''
+            target: ''
+            nl2br: false
+            max_length: 0
+            word_boundary: true
+            ellipsis: true
+            more_link: false
+            more_link_text: ''
+            more_link_path: ''
+            strip_tags: false
+            trim: false
+            preserve_tags: ''
+            html: false
+          element_type: ''
+          element_class: ''
+          element_label_type: ''
+          element_label_class: ''
+          element_label_colon: false
+          element_wrapper_type: ''
+          element_wrapper_class: ''
+          element_default_classes: true
+          empty: ''
+          hide_empty: false
+          empty_zero: false
+          hide_alter_empty: true
+          click_sort_column: value
+          type: hms_default_formatter
+          settings:
+            format: 'h:mm'
+            leading_zero: 1
+          group_column: value
+          group_columns: {  }
+          group_rows: true
+          delta_limit: 0
+          delta_offset: 0
+          delta_reversed: false
+          delta_first_last: false
+          multi_type: separator
+          separator: ', '
+          field_api_classes: false
+          plugin_id: field
+      filters:
+        type:
+          id: type
+          table: directory_field_data
+          field: type
+          relationship: none
+          group_type: group
+          admin_label: ''
+          operator: in
+          value:
+            parishes: parishes
+          group: 1
+          exposed: false
+          expose:
+            operator_id: ''
+            label: ''
+            description: ''
+            use_operator: false
+            operator: ''
+            identifier: ''
+            required: false
+            remember: false
+            multiple: false
+            remember_roles:
+              authenticated: authenticated
+            reduce: false
+          is_grouped: false
+          group_info:
+            label: ''
+            description: ''
+            identifier: ''
+            optional: true
+            widget: select
+            multiple: false
+            remember: false
+            default_group: All
+            default_group_multiple: {  }
+            group_items: {  }
+          entity_type: directory
+          entity_field: type
+          plugin_id: bundle
+        field_service_type_value:
+          id: field_service_type_value
+          table: mass_times__field_service_type
+          field: field_service_type_value
+          relationship: reverse__mass_times__field_parish
+          group_type: group
+          admin_label: ''
+          operator: or
+          value:
+            adoration: adoration
+          group: 1
+          exposed: false
+          expose:
+            operator_id: ''
+            label: ''
+            description: ''
+            use_operator: false
+            operator: ''
+            identifier: ''
+            required: false
+            remember: false
+            multiple: false
+            remember_roles:
+              authenticated: authenticated
+            reduce: false
+          is_grouped: false
+          group_info:
+            label: ''
+            description: ''
+            identifier: ''
+            optional: true
+            widget: select
+            multiple: false
+            remember: false
+            default_group: All
+            default_group_multiple: {  }
+            group_items: {  }
+          reduce_duplicates: false
+          plugin_id: list_field
+      filter_groups:
+        operator: AND
+        groups:
+          1: AND
+      sorts:
+        field_geolocation_proximity:
+          proximity_field: field_geolocation_proximity
+          id: field_geolocation_proximity
+          table: directory__field_geolocation
+          field: field_geolocation_proximity
+          relationship: none
+          group_type: group
+          admin_label: ''
+          order: ASC
+          exposed: false
+          expose:
+            label: 'Proximity (field_geolocation)'
+          plugin_id: geolocation_sort_proximity
+        field_name_value:
+          id: field_name_value
+          table: directory__field_name
+          field: field_name_value
+          relationship: none
+          group_type: group
+          admin_label: ''
+          order: ASC
+          exposed: false
+          expose:
+            label: ''
+          plugin_id: standard
+      empty: {  }
+      header: {  }
+      group_by: false
+      exposed_form:
+        type: basic
+        options:
+          submit_button: Find
+          reset_button: true
+          reset_button_label: Reset
+          exposed_sorts_label: 'Sort by'
+          expose_sort_order: true
+          sort_asc_label: Asc
+          sort_desc_label: Desc
+      query:
+        type: views_query
+        options:
+          disable_sql_rewrite: false
+          distinct: false
+          replica: false
+          query_comment: ''
+          query_tags: null
+      relationships:
+        reverse__mass_times__field_parish:
+          id: reverse__mass_times__field_parish
+          table: directory_field_data
+          field: reverse__mass_times__field_parish
+          relationship: none
+          group_type: group
+          admin_label: field_parish
+          required: false
+          entity_type: directory
+          plugin_id: entity_reverse
+      pager:
+        type: none
+        options:
+          offset: 0
+      style:
+        type: default
+        options:
+          grouping:
+            -
+              field: field_service_type
+              rendered: true
+              rendered_strip: false
+            -
+              field: field_day_of_week
+              rendered: true
+              rendered_strip: false
+          row_class: ''
+          default_row_class: true
+      row:
+        type: fields
+        options: {  }
+      arguments:
+        id:
+          id: id
+          table: directory_field_data
+          field: id
+          relationship: none
+          group_type: group
+          admin_label: ''
+          default_action: default
+          exception:
+            value: all
+            title_enable: false
+            title: All
+          title_enable: false
+          title: ''
+          default_argument_type: node
+          default_argument_options: {  }
+          default_argument_skip_url: false
+          summary_options:
+            base_path: ''
+            count: true
+            items_per_page: 25
+            override: false
+          summary:
+            sort_order: asc
+            number_of_records: 0
+            format: default_summary
+          specify_validation: false
+          validate:
+            type: none
+            fail: 'not found'
+          validate_options: {  }
+          break_phrase: false
+          not: false
+          entity_type: directory
+          entity_field: id
+          plugin_id: numeric
+      display_description: ''
+    cache_metadata:
+      max-age: -1
+      contexts:
+        - 'languages:language_content'
+        - 'languages:language_interface'
+        - url
+      tags:
+        - 'config:field.storage.mass_times.field_day_of_week'
+        - 'config:field.storage.mass_times.field_service_start_time'
+        - 'config:field.storage.mass_times.field_service_type'
+  attachment_7:
+    display_plugin: attachment
+    id: attachment_7
+    display_title: 'Devotion Times'
+    position: 3
+    display_options:
+      display_extenders:
+        views_merge_rows: {  }
+      inherit_exposed_filters: true
+      title: 'Service Times'
+      defaults:
+        title: false
+        fields: false
+        filters: false
+        filter_groups: false
+        sorts: false
+        empty: false
+        header: false
+        group_by: false
+        exposed_form: false
+        query: false
+        relationships: false
+        style: false
+        row: false
+        arguments: false
+      fields:
+        field_day_of_week:
+          id: field_day_of_week
+          table: mass_times__field_day_of_week
+          field: field_day_of_week
+          relationship: reverse__mass_times__field_parish
+          group_type: group
+          admin_label: ''
+          label: ''
+          exclude: true
+          alter:
+            alter_text: false
+            text: ''
+            make_link: false
+            path: ''
+            absolute: false
+            external: false
+            replace_spaces: false
+            path_case: none
+            trim_whitespace: false
+            alt: ''
+            rel: ''
+            link_class: ''
+            prefix: ''
+            suffix: ''
+            target: ''
+            nl2br: false
+            max_length: 0
+            word_boundary: true
+            ellipsis: true
+            more_link: false
+            more_link_text: ''
+            more_link_path: ''
+            strip_tags: false
+            trim: false
+            preserve_tags: ''
+            html: false
+          element_type: ''
+          element_class: ''
+          element_label_type: ''
+          element_label_class: ''
+          element_label_colon: false
+          element_wrapper_type: ''
+          element_wrapper_class: ''
+          element_default_classes: true
+          empty: ''
+          hide_empty: false
+          empty_zero: false
+          hide_alter_empty: true
+          click_sort_column: value
+          type: list_default
+          settings: {  }
+          group_column: value
+          group_columns: {  }
+          group_rows: true
+          delta_limit: 0
+          delta_offset: 0
+          delta_reversed: false
+          delta_first_last: false
+          multi_type: separator
+          separator: ', '
+          field_api_classes: false
+          plugin_id: field
+        field_service_type:
+          id: field_service_type
+          table: mass_times__field_service_type
+          field: field_service_type
+          relationship: reverse__mass_times__field_parish
+          group_type: group
+          admin_label: ''
+          label: ''
+          exclude: true
+          alter:
+            alter_text: false
+            text: ''
+            make_link: false
+            path: ''
+            absolute: false
+            external: false
+            replace_spaces: false
+            path_case: none
+            trim_whitespace: false
+            alt: ''
+            rel: ''
+            link_class: ''
+            prefix: ''
+            suffix: ''
+            target: ''
+            nl2br: false
+            max_length: 0
+            word_boundary: true
+            ellipsis: true
+            more_link: false
+            more_link_text: ''
+            more_link_path: ''
+            strip_tags: false
+            trim: false
+            preserve_tags: ''
+            html: false
+          element_type: ''
+          element_class: ''
+          element_label_type: ''
+          element_label_class: ''
+          element_label_colon: false
+          element_wrapper_type: ''
+          element_wrapper_class: ''
+          element_default_classes: true
+          empty: ''
+          hide_empty: false
+          empty_zero: false
+          hide_alter_empty: true
+          click_sort_column: value
+          type: list_default
+          settings: {  }
+          group_column: value
+          group_columns: {  }
+          group_rows: true
+          delta_limit: 0
+          delta_offset: 0
+          delta_reversed: false
+          delta_first_last: false
+          multi_type: separator
+          separator: ', '
+          field_api_classes: false
+          plugin_id: field
+        field_service_start_time:
+          id: field_service_start_time
+          table: mass_times__field_service_start_time
+          field: field_service_start_time
+          relationship: reverse__mass_times__field_parish
+          group_type: group
+          admin_label: ''
+          label: ''
+          exclude: false
+          alter:
+            alter_text: false
+            text: ''
+            make_link: false
+            path: ''
+            absolute: false
+            external: false
+            replace_spaces: false
+            path_case: none
+            trim_whitespace: false
+            alt: ''
+            rel: ''
+            link_class: ''
+            prefix: ''
+            suffix: ''
+            target: ''
+            nl2br: false
+            max_length: 0
+            word_boundary: true
+            ellipsis: true
+            more_link: false
+            more_link_text: ''
+            more_link_path: ''
+            strip_tags: false
+            trim: false
+            preserve_tags: ''
+            html: false
+          element_type: ''
+          element_class: ''
+          element_label_type: ''
+          element_label_class: ''
+          element_label_colon: false
+          element_wrapper_type: ''
+          element_wrapper_class: ''
+          element_default_classes: true
+          empty: ''
+          hide_empty: false
+          empty_zero: false
+          hide_alter_empty: true
+          click_sort_column: value
+          type: hms_default_formatter
+          settings:
+            format: 'h:mm'
+            leading_zero: 1
+          group_column: value
+          group_columns: {  }
+          group_rows: true
+          delta_limit: 0
+          delta_offset: 0
+          delta_reversed: false
+          delta_first_last: false
+          multi_type: separator
+          separator: ', '
+          field_api_classes: false
+          plugin_id: field
+      filters:
+        type:
+          id: type
+          table: directory_field_data
+          field: type
+          relationship: none
+          group_type: group
+          admin_label: ''
+          operator: in
+          value:
+            parishes: parishes
+          group: 1
+          exposed: false
+          expose:
+            operator_id: ''
+            label: ''
+            description: ''
+            use_operator: false
+            operator: ''
+            identifier: ''
+            required: false
+            remember: false
+            multiple: false
+            remember_roles:
+              authenticated: authenticated
+            reduce: false
+          is_grouped: false
+          group_info:
+            label: ''
+            description: ''
+            identifier: ''
+            optional: true
+            widget: select
+            multiple: false
+            remember: false
+            default_group: All
+            default_group_multiple: {  }
+            group_items: {  }
+          entity_type: directory
+          entity_field: type
+          plugin_id: bundle
+        field_service_type_value:
+          id: field_service_type_value
+          table: mass_times__field_service_type
+          field: field_service_type_value
+          relationship: reverse__mass_times__field_parish
+          group_type: group
+          admin_label: ''
+          operator: or
+          value:
+            devotion: devotion
+          group: 1
+          exposed: false
+          expose:
+            operator_id: ''
+            label: ''
+            description: ''
+            use_operator: false
+            operator: ''
+            identifier: ''
+            required: false
+            remember: false
+            multiple: false
+            remember_roles:
+              authenticated: authenticated
+            reduce: false
+          is_grouped: false
+          group_info:
+            label: ''
+            description: ''
+            identifier: ''
+            optional: true
+            widget: select
+            multiple: false
+            remember: false
+            default_group: All
+            default_group_multiple: {  }
+            group_items: {  }
+          reduce_duplicates: false
+          plugin_id: list_field
+      filter_groups:
+        operator: AND
+        groups:
+          1: AND
+      sorts:
+        field_geolocation_proximity:
+          proximity_field: field_geolocation_proximity
+          id: field_geolocation_proximity
+          table: directory__field_geolocation
+          field: field_geolocation_proximity
+          relationship: none
+          group_type: group
+          admin_label: ''
+          order: ASC
+          exposed: false
+          expose:
+            label: 'Proximity (field_geolocation)'
+          plugin_id: geolocation_sort_proximity
+        field_name_value:
+          id: field_name_value
+          table: directory__field_name
+          field: field_name_value
+          relationship: none
+          group_type: group
+          admin_label: ''
+          order: ASC
+          exposed: false
+          expose:
+            label: ''
+          plugin_id: standard
+      empty: {  }
+      header: {  }
+      group_by: false
+      exposed_form:
+        type: basic
+        options:
+          submit_button: Find
+          reset_button: true
+          reset_button_label: Reset
+          exposed_sorts_label: 'Sort by'
+          expose_sort_order: true
+          sort_asc_label: Asc
+          sort_desc_label: Desc
+      query:
+        type: views_query
+        options:
+          disable_sql_rewrite: false
+          distinct: false
+          replica: false
+          query_comment: ''
+          query_tags: null
+      relationships:
+        reverse__mass_times__field_parish:
+          id: reverse__mass_times__field_parish
+          table: directory_field_data
+          field: reverse__mass_times__field_parish
+          relationship: none
+          group_type: group
+          admin_label: field_parish
+          required: false
+          entity_type: directory
+          plugin_id: entity_reverse
+      pager:
+        type: none
+        options:
+          offset: 0
+      style:
+        type: default
+        options:
+          grouping:
+            -
+              field: field_service_type
+              rendered: true
+              rendered_strip: false
+            -
+              field: field_day_of_week
+              rendered: true
+              rendered_strip: false
+          row_class: ''
+          default_row_class: true
+      row:
+        type: fields
+        options: {  }
+      arguments:
+        id:
+          id: id
+          table: directory_field_data
+          field: id
+          relationship: none
+          group_type: group
+          admin_label: ''
+          default_action: default
+          exception:
+            value: all
+            title_enable: false
+            title: All
+          title_enable: false
+          title: ''
+          default_argument_type: node
+          default_argument_options: {  }
+          default_argument_skip_url: false
+          summary_options:
+            base_path: ''
+            count: true
+            items_per_page: 25
+            override: false
+          summary:
+            sort_order: asc
+            number_of_records: 0
+            format: default_summary
+          specify_validation: false
+          validate:
+            type: none
+            fail: 'not found'
+          validate_options: {  }
+          break_phrase: false
+          not: false
+          entity_type: directory
+          entity_field: id
+          plugin_id: numeric
+      display_description: ''
+    cache_metadata:
+      max-age: -1
+      contexts:
+        - 'languages:language_content'
+        - 'languages:language_interface'
+        - url
+      tags:
+        - 'config:field.storage.mass_times.field_day_of_week'
+        - 'config:field.storage.mass_times.field_service_start_time'
+        - 'config:field.storage.mass_times.field_service_type'
   page_1:
     display_plugin: page
     id: page_1
@@ -1122,6 +4462,363 @@ display:
         title: Parishes
         description: ''
         weight: 0
+      filters:
+        type:
+          id: type
+          table: directory_field_data
+          field: type
+          relationship: none
+          group_type: group
+          admin_label: ''
+          operator: in
+          value:
+            parishes: parishes
+          group: 1
+          exposed: false
+          expose:
+            operator_id: ''
+            label: ''
+            description: ''
+            use_operator: false
+            operator: ''
+            identifier: ''
+            required: false
+            remember: false
+            multiple: false
+            remember_roles:
+              authenticated: authenticated
+            reduce: false
+          is_grouped: false
+          group_info:
+            label: ''
+            description: ''
+            identifier: ''
+            optional: true
+            widget: select
+            multiple: false
+            remember: false
+            default_group: All
+            default_group_multiple: {  }
+            group_items: {  }
+          entity_type: directory
+          entity_field: type
+          plugin_id: bundle
+        field_geolocation_proximity:
+          proximity_source: exposed
+          proximity_lat: ''
+          proximity_lng: ''
+          proximity_units: mile
+          proximity_argument: ''
+          entity_id_argument: ''
+          boundary_filter: ''
+          client_location: false
+          id: field_geolocation_proximity
+          table: directory__field_geolocation
+          field: field_geolocation_proximity
+          relationship: none
+          group_type: group
+          admin_label: ''
+          operator: '<'
+          value:
+            min: ''
+            max: ''
+            value: '3000'
+          group: 1
+          exposed: true
+          expose:
+            operator_id: field_geolocation_proximity_op
+            label: 'Nearest to'
+            description: ''
+            use_operator: false
+            operator: field_geolocation_proximity_op
+            identifier: field_geolocation_proximity
+            required: false
+            remember: false
+            multiple: false
+            remember_roles:
+              authenticated: authenticated
+              diocesan_administrator: '0'
+              directory: '0'
+              anonymous: '0'
+              administrator: '0'
+            placeholder: ''
+            min_placeholder: ''
+            max_placeholder: ''
+            input_by_geocoding_widget: 0
+            geocoder_plugin_settings:
+              plugin_id: google_geocoding_api
+              settings:
+                components:
+                  route: ''
+                  locality: ''
+                  administrativeArea: ''
+                  postalCode: ''
+                  country: ''
+          is_grouped: false
+          group_info:
+            label: ''
+            description: ''
+            identifier: ''
+            optional: true
+            widget: select
+            multiple: false
+            remember: false
+            default_group: All
+            default_group_multiple: {  }
+            group_items: {  }
+          plugin_id: geolocation_filter_proximity
+        field_service_type_value:
+          id: field_service_type_value
+          table: mass_times__field_service_type
+          field: field_service_type_value
+          relationship: reverse__mass_times__field_parish
+          group_type: group
+          admin_label: ''
+          operator: or
+          value: {  }
+          group: 1
+          exposed: true
+          expose:
+            operator_id: field_service_type_value_op
+            label: 'Service Type'
+            description: 'By default, only weekend mass times are displayed below. To show other service times, please select a service type or day.'
+            use_operator: false
+            operator: field_service_type_value_op
+            identifier: field_service_type_value
+            required: false
+            remember: false
+            multiple: false
+            remember_roles:
+              authenticated: authenticated
+              anonymous: '0'
+              administrator: '0'
+              diocesan_administrator: '0'
+              diocesan_staff: '0'
+              directory: '0'
+              events_editor: '0'
+              news_editor: '0'
+              job_editor: '0'
+              priests: '0'
+              deacons: '0'
+              safe_environment: '0'
+              school_principal: '0'
+              tribunal_advocate: '0'
+            reduce: false
+          is_grouped: false
+          group_info:
+            label: ''
+            description: ''
+            identifier: ''
+            optional: true
+            widget: select
+            multiple: false
+            remember: false
+            default_group: All
+            default_group_multiple: {  }
+            group_items: {  }
+          reduce_duplicates: false
+          plugin_id: list_field
+        field_day_of_week_value:
+          id: field_day_of_week_value
+          table: mass_times__field_day_of_week
+          field: field_day_of_week_value
+          relationship: reverse__mass_times__field_parish
+          group_type: group
+          admin_label: ''
+          operator: or
+          value: {  }
+          group: 1
+          exposed: true
+          expose:
+            operator_id: field_day_of_week_value_op
+            label: 'Service Day'
+            description: ''
+            use_operator: false
+            operator: field_day_of_week_value_op
+            identifier: field_day_of_week_value
+            required: false
+            remember: false
+            multiple: false
+            remember_roles:
+              authenticated: authenticated
+              anonymous: '0'
+              administrator: '0'
+              diocesan_administrator: '0'
+              diocesan_staff: '0'
+              directory: '0'
+              events_editor: '0'
+              news_editor: '0'
+              job_editor: '0'
+              priests: '0'
+              deacons: '0'
+              safe_environment: '0'
+              school_principal: '0'
+              tribunal_advocate: '0'
+            reduce: false
+          is_grouped: false
+          group_info:
+            label: ''
+            description: ''
+            identifier: ''
+            optional: true
+            widget: select
+            multiple: false
+            remember: false
+            default_group: All
+            default_group_multiple: {  }
+            group_items: {  }
+          reduce_duplicates: false
+          plugin_id: list_field
+        field_county_value:
+          id: field_county_value
+          table: directory__field_county
+          field: field_county_value
+          relationship: none
+          group_type: group
+          admin_label: ''
+          operator: or
+          value: {  }
+          group: 1
+          exposed: true
+          expose:
+            operator_id: field_county_value_op
+            label: County
+            description: ''
+            use_operator: false
+            operator: field_county_value_op
+            identifier: field_county_value
+            required: false
+            remember: false
+            multiple: false
+            remember_roles:
+              authenticated: authenticated
+              anonymous: '0'
+              administrator: '0'
+              diocesan_administrator: '0'
+              diocesan_staff: '0'
+              directory: '0'
+              events_editor: '0'
+              news_editor: '0'
+              job_editor: '0'
+              priests: '0'
+              deacons: '0'
+              safe_environment: '0'
+              school_principal: '0'
+              tribunal_advocate: '0'
+            reduce: false
+          is_grouped: false
+          group_info:
+            label: ''
+            description: ''
+            identifier: ''
+            optional: true
+            widget: select
+            multiple: false
+            remember: false
+            default_group: All
+            default_group_multiple: {  }
+            group_items: {  }
+          reduce_duplicates: false
+          plugin_id: list_field
+        field_vicariate_value:
+          id: field_vicariate_value
+          table: directory__field_vicariate
+          field: field_vicariate_value
+          relationship: none
+          group_type: group
+          admin_label: ''
+          operator: or
+          value: {  }
+          group: 1
+          exposed: true
+          expose:
+            operator_id: field_vicariate_value_op
+            label: Deanery
+            description: ''
+            use_operator: false
+            operator: field_vicariate_value_op
+            identifier: field_vicariate_value
+            required: false
+            remember: false
+            multiple: false
+            remember_roles:
+              authenticated: authenticated
+              anonymous: '0'
+              administrator: '0'
+              diocesan_administrator: '0'
+              diocesan_staff: '0'
+              directory: '0'
+              events_editor: '0'
+              news_editor: '0'
+              job_editor: '0'
+              priests: '0'
+              deacons: '0'
+              safe_environment: '0'
+              school_principal: '0'
+              tribunal_advocate: '0'
+            reduce: false
+          is_grouped: false
+          group_info:
+            label: ''
+            description: ''
+            identifier: ''
+            optional: true
+            widget: select
+            multiple: false
+            remember: false
+            default_group: All
+            default_group_multiple: {  }
+            group_items: {  }
+          reduce_duplicates: false
+          plugin_id: list_field
+      defaults:
+        filters: false
+        filter_groups: false
+      filter_groups:
+        operator: AND
+        groups:
+          1: AND
+      relationship: reverse__mass_times__field_parish
+      fieldsets:
+        - more
+        - admin_label
+      admin_label: ''
+      expose_button:
+        checkbox:
+          checkbox: 1
+        button: 'Hide filter'
+      group_button:
+        radios:
+          radios: '0'
+        button: 'Grouped filters'
+      operator: or
+      value: {  }
+      reduce_duplicates: 0
+      expose:
+        required: 0
+        label: 'Service Type'
+        description: 'By default, only weekend mass times are displayed below. To show other service times, please select a service type or day.'
+        use_operator: 0
+        operator_id: field_service_type_value_op
+        multiple: 0
+        remember: 0
+        remember_roles:
+          authenticated: authenticated
+          anonymous: 0
+          administrator: 0
+          diocesan_administrator: 0
+          diocesan_staff: 0
+          directory: 0
+          events_editor: 0
+          news_editor: 0
+          job_editor: 0
+          priests: 0
+          deacons: 0
+          safe_environment: 0
+          school_principal: 0
+          tribunal_advocate: 0
+        identifier: field_service_type_value
+        reduce: 0
     cache_metadata:
       max-age: -1
       contexts:
