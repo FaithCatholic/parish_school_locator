@@ -7,7 +7,6 @@
 
 use Drupal\Core\Routing\RouteMatchInterface;
 use Drupal\Core\Form\FormStateInterface;
-use Drupal\views\ResultRow;
 
 /**
  * Implements hook_help().
@@ -40,6 +39,8 @@ function parish_school_locator_theme() {
  * Implements hook_uninstall().
  */
 function parish_school_locator_uninstall() {
+
+    // When uninstalling module, remove geolocation configs
     \Drupal::configFactory()->getEditable('field.field.directory.parishes.field_geolocation')->delete();
     \Drupal::configFactory()->getEditable('field.field.directory.schools.field_geolocation')->delete();
     \Drupal::configFactory()->getEditable('field.storage.directory.field_geolocation')->delete();
@@ -49,6 +50,7 @@ function parish_school_locator_uninstall() {
  * Implements hook_form_alter()
  */
 function parish_school_locator_form_alter(&$form, FormStateInterface $form_state, $form_id) {
+
   // Parish finder exposed view form
   if (   $form['#id'] == 'views-exposed-form-parish-finder-page-1'
       || $form['#id'] == 'views-exposed-form-parish-finder-page-2'
@@ -122,6 +124,7 @@ function _mapbox_geocode($address) {
   // Initialize Guzzle HTTP client
   $client = \Drupal::httpClient();
 
+  // Use Mapbox API to geocode address
   try {
     $request = $client->get($url);  // make API call
     $response = $request->getBody();  // get API response
@@ -130,6 +133,8 @@ function _mapbox_geocode($address) {
     $output = $output['center']; // get lat/lng center
   }
   catch (RequestException $e) {
+
+    // If geocoding fails, display error as Drupal status message
     watchdog_exception('parish_school_locator', $e->getMessage());
   }
 
@@ -140,13 +145,24 @@ function _mapbox_geocode($address) {
  * Implements hook_views_pre_render().
  */
 function parish_school_locator_views_pre_render(\Drupal\views\ViewExecutable $view) {
+
+  // Parish Finder view
   if (isset($view) && ($view->storage->id() == 'parish_finder')) {
+
+    // Attach library (Module's CSS)
     $view->element['#attached']['library'][] = 'parish_school_locator/parish_school_locator';
 
-    // If no addressed entered, hide proximity field
-    if ($view->exposed_widgets['field_geocoded_address']['#value'] == '') {
-      unset($view->field['field_geolocation_proximity']);
+    // Parish Finder List or Map display
+    if ($view->current_display == 'page_1'
+      || $view->current_display == 'page_2') {
+      
+      // If no addressed entered, hide proximity field
+      if ($view->exposed_widgets['field_geocoded_address']['#value'] == '') {
+        unset($view->field['field_geolocation_proximity']);
+      }
     }
+
+    // Parish Finder List display only
     if ($view->current_display == 'page_1') {
 
       // Default to weekend masses if no type or day is selected
@@ -232,158 +248,40 @@ function parish_school_locator_views_pre_render(\Drupal\views\ViewExecutable $vi
     }
   }
 
-  if (isset($view) && ($view->storage->id() == 'school_finder')) {
-    $view->element['#attached']['library'][] = 'parish_school_locator/parish_school_locator';
-  }
 
-/*  if (isset($view)
-      && ( $view->storage->id() == 'parish_adoration_times'
-      || $view->storage->id() == 'parish_confession_times'
-      || $view->storage->id() == 'parish_devotion_times'
-      || $view->storage->id() == 'parish_holy_day_mass_times'
-      || $view->storage->id() == 'parish_holy_day_vigil_mass_times'
-      || $view->storage->id() == 'parish_week_day_mass_times'
-      || $view->storage->id() == 'parish_weekend_mass_times'
-      )
-  ) {
-    // Iterate through each service time
-    foreach ($view->result as $key => $value) {
-      $day = _find_day_of_week(($view));
-      if (isset($day)) {
-        dpm($day);
+  // School Finder view
+  if (isset($view) && ($view->storage->id() == 'school_finder')) {
+
+    // Attach library (Module's CSS)
+    $view->element['#attached']['library'][] = 'parish_school_locator/parish_school_locator';
+
+    // School Finder List or Map display
+    if ($view->current_display == 'page_1'
+      || $view->current_display == 'page_2') {
+
+      // If no addressed entered, hide proximity field
+      if ($view->exposed_widgets['field_geocoded_address']['#value'] == '') {
+        unset($view->field['field_geolocation_proximity']);
       }
-      else {
-        dpm($view->old_view[0]->old_view[0]->old_view[0]->old_view[0]->old_view[0]->old_view[0]->old_view[0]->old_view[0]->old_view[0]->old_view[0]->old_view[0]->old_view[0]->old_view[0]->old_view[0]->old_view[0]->old_view[0]->old_view[0]->old_view[0]->old_view[0]->old_view[0]->id());
-      }
-      _filter_day_of_week($view, $day, $value, $key);
     }
-  }*/
+  }
 }
 
 /**
- * Custom function to filter out services on days that don't match the
- * exposed filter
- *
- * @param $view
- * @param $day
- * @param $value
+ * Implements hook_preprocess().
  */
-
-/*function _filter_day_of_week($view, $day, $value, $key) {
-  if (isset($value->_entity->toArray()['field_day_of_week'][0]['value'])
-    && $value->_entity->toArray()['field_day_of_week'][0]['value'] != $day
-    && $day != 'All'
-  ) {
-
-    // If days don't match, don't display the service time
-    unset($view->result[$key]);
-  }
-  else {
-    foreach ($view->result as $k => $v) {
-      if ($v->mass_times__field_day_of_week_field_day_of_week_value != $day && $day != 'All') {
-        unset($view->result[$k]);
+function parish_school_locator_preprocess_views_view_field(&$variables) {
+  if ($variables['view']->storage->id() == 'parish_mass_times') {
+    $current_uri = \Drupal::request()->getRequestUri();
+    $parts = parse_url($current_uri);
+    if (isset($parts['query'])) {
+      parse_str($parts['query'], $query);
+      if (isset($query['field_day_of_week_value'])) {
+        $day = $query['field_day_of_week_value'];
+        if ($variables['row']->mass_times__field_day_of_week_field_day_of_week_value != $day) {
+          unset($variables['output']);
+        }
       }
     }
   }
-}*/
-
-/**
- * Custom function to find day of week exposed value
- *
- * @param $view
- *
- * @return mixed
- */
-/*function _find_day_of_week($view) {
-  foreach($view->result as $key=>$value) {
-    if (isset($view->old_view[0]->exposed_data['field_day_of_week_value'])
-        && $view->old_view[0]->id() == 'parish_finder') {
-      $day = $view->old_view[0]->exposed_data['field_day_of_week_value'];
-    }
-    elseif (isset($view->old_view[0]->old_view[0]->exposed_data['field_day_of_week_value'])
-      && $view->old_view[0]->old_view[0]->id() == 'parish_finder') {
-        $day = $view->old_view[0]->old_view[0]->exposed_data['field_day_of_week_value'];
-    }
-    elseif (isset($view->old_view[0]->old_view[0]->old_view[0]->exposed_data['field_day_of_week_value'])
-      && $view->old_view[0]->old_view[0]->old_view[0]->id() == 'parish_finder') {
-      $day = $view->old_view[0]->old_view[0]->old_view[0]->exposed_data['field_day_of_week_value'];
-    }
-    elseif (isset($view->old_view[0]->old_view[0]->old_view[0]->old_view[0]->exposed_data['field_day_of_week_value'])
-      && $view->old_view[0]->old_view[0]->old_view[0]->old_view[0]->id() == 'parish_finder') {
-      $day = $view->old_view[0]->old_view[0]->old_view[0]->old_view[0]->exposed_data['field_day_of_week_value'];
-    }
-    elseif (isset($view->old_view[0]->old_view[0]->old_view[0]->old_view[0]->old_view[0]->exposed_data['field_day_of_week_value'])
-      && $view->old_view[0]->old_view[0]->old_view[0]->old_view[0]->old_view[0]->id() == 'parish_finder') {
-      $day = $view->old_view[0]->old_view[0]->old_view[0]->old_view[0]->old_view[0]->exposed_data['field_day_of_week_value'];
-    }
-    elseif (isset($view->old_view[0]->old_view[0]->old_view[0]->old_view[0]->old_view[0]->old_view[0]->exposed_data['field_day_of_week_value'])
-      && $view->old_view[0]->old_view[0]->old_view[0]->old_view[0]->old_view[0]->old_view[0]->id() == 'parish_finder') {
-      $day = $view->old_view[0]->old_view[0]->old_view[0]->old_view[0]->old_view[0]->old_view[0]->exposed_data['field_day_of_week_value'];
-    }
-    elseif (isset($view->old_view[0]->old_view[0]->old_view[0]->old_view[0]->old_view[0]->old_view[0]->old_view[0]->exposed_data['field_day_of_week_value'])
-      && $view->old_view[0]->old_view[0]->old_view[0]->old_view[0]->old_view[0]->old_view[0]->old_view[0]->id() == 'parish_finder') {
-      $day = $view->old_view[0]->old_view[0]->old_view[0]->old_view[0]->old_view[0]->old_view[0]->old_view[0]->exposed_data['field_day_of_week_value'];
-    }
-    elseif (isset($view->old_view[0]->old_view[0]->old_view[0]->old_view[0]->old_view[0]->old_view[0]->old_view[0]->old_view[0]->exposed_data['field_day_of_week_value'])
-      && $view->old_view[0]->old_view[0]->old_view[0]->old_view[0]->old_view[0]->old_view[0]->old_view[0]->old_view[0]->id() == 'parish_finder') {
-      $day = $view->old_view[0]->old_view[0]->old_view[0]->old_view[0]->old_view[0]->old_view[0]->old_view[0]->old_view[0]->exposed_data['field_day_of_week_value'];
-    }
-    elseif (isset($view->old_view[0]->old_view[0]->old_view[0]->old_view[0]->old_view[0]->old_view[0]->old_view[0]->old_view[0]->old_view[0]->exposed_data['field_day_of_week_value'])
-      && $view->old_view[0]->old_view[0]->old_view[0]->old_view[0]->old_view[0]->old_view[0]->old_view[0]->old_view[0]->old_view[0]->id() == 'parish_finder') {
-      $day = $view->old_view[0]->old_view[0]->old_view[0]->old_view[0]->old_view[0]->old_view[0]->old_view[0]->old_view[0]->old_view[0]->exposed_data['field_day_of_week_value'];
-    }
-    elseif (isset($view->old_view[0]->old_view[0]->old_view[0]->old_view[0]->old_view[0]->old_view[0]->old_view[0]->old_view[0]->old_view[0]->old_view[0]->exposed_data['field_day_of_week_value'])
-      && $view->old_view[0]->old_view[0]->old_view[0]->old_view[0]->old_view[0]->old_view[0]->old_view[0]->old_view[0]->old_view[0]->old_view[0]->id() == 'parish_finder') {
-      $day = $view->old_view[0]->old_view[0]->old_view[0]->old_view[0]->old_view[0]->old_view[0]->old_view[0]->old_view[0]->old_view[0]->old_view[0]->exposed_data['field_day_of_week_value'];
-    }
-    elseif (isset($view->old_view[0]->old_view[0]->old_view[0]->old_view[0]->old_view[0]->old_view[0]->old_view[0]->old_view[0]->old_view[0]->old_view[0]->old_view[0]->exposed_data['field_day_of_week_value'])
-      && $view->old_view[0]->old_view[0]->old_view[0]->old_view[0]->old_view[0]->old_view[0]->old_view[0]->old_view[0]->old_view[0]->old_view[0]->old_view[0]->id() == 'parish_finder') {
-      $day = $view->old_view[0]->old_view[0]->old_view[0]->old_view[0]->old_view[0]->old_view[0]->old_view[0]->old_view[0]->old_view[0]->old_view[0]->old_view[0]->exposed_data['field_day_of_week_value'];
-    }
-    elseif (isset($view->old_view[0]->old_view[0]->old_view[0]->old_view[0]->old_view[0]->old_view[0]->old_view[0]->old_view[0]->old_view[0]->old_view[0]->old_view[0]->old_view[0]->exposed_data['field_day_of_week_value'])
-      && $view->old_view[0]->old_view[0]->old_view[0]->old_view[0]->old_view[0]->old_view[0]->old_view[0]->old_view[0]->old_view[0]->old_view[0]->old_view[0]->old_view[0]->id() == 'parish_finder') {
-      $day = $view->old_view[0]->old_view[0]->old_view[0]->old_view[0]->old_view[0]->old_view[0]->old_view[0]->old_view[0]->old_view[0]->old_view[0]->old_view[0]->old_view[0]->exposed_data['field_day_of_week_value'];
-    }
-    elseif (isset($view->old_view[0]->old_view[0]->old_view[0]->old_view[0]->old_view[0]->old_view[0]->old_view[0]->old_view[0]->old_view[0]->old_view[0]->old_view[0]->old_view[0]->old_view[0]->exposed_data['field_day_of_week_value'])
-      && $view->old_view[0]->old_view[0]->old_view[0]->old_view[0]->old_view[0]->old_view[0]->old_view[0]->old_view[0]->old_view[0]->old_view[0]->old_view[0]->old_view[0]->old_view[0]->id() == 'parish_finder') {
-      $day = $view->old_view[0]->old_view[0]->old_view[0]->old_view[0]->old_view[0]->old_view[0]->old_view[0]->old_view[0]->old_view[0]->old_view[0]->old_view[0]->old_view[0]->old_view[0]->exposed_data['field_day_of_week_value'];
-    }
-    elseif (isset($view->old_view[0]->old_view[0]->old_view[0]->old_view[0]->old_view[0]->old_view[0]->old_view[0]->old_view[0]->old_view[0]->old_view[0]->old_view[0]->old_view[0]->old_view[0]->old_view[0]->exposed_data['field_day_of_week_value'])
-      && $view->old_view[0]->old_view[0]->old_view[0]->old_view[0]->old_view[0]->old_view[0]->old_view[0]->old_view[0]->old_view[0]->old_view[0]->old_view[0]->old_view[0]->old_view[0]->old_view[0]->id() == 'parish_finder') {
-      $day = $view->old_view[0]->old_view[0]->old_view[0]->old_view[0]->old_view[0]->old_view[0]->old_view[0]->old_view[0]->old_view[0]->old_view[0]->old_view[0]->old_view[0]->old_view[0]->old_view[0]->exposed_data['field_day_of_week_value'];
-    }
-    elseif (isset($view->old_view[0]->old_view[0]->old_view[0]->old_view[0]->old_view[0]->old_view[0]->old_view[0]->old_view[0]->old_view[0]->old_view[0]->old_view[0]->old_view[0]->old_view[0]->old_view[0]->old_view[0]->exposed_data['field_day_of_week_value'])
-      && $view->old_view[0]->old_view[0]->old_view[0]->old_view[0]->old_view[0]->old_view[0]->old_view[0]->old_view[0]->old_view[0]->old_view[0]->old_view[0]->old_view[0]->old_view[0]->old_view[0]->old_view[0]->id() == 'parish_finder') {
-      $day = $view->old_view[0]->old_view[0]->old_view[0]->old_view[0]->old_view[0]->old_view[0]->old_view[0]->old_view[0]->old_view[0]->old_view[0]->old_view[0]->old_view[0]->old_view[0]->old_view[0]->old_view[0]->exposed_data['field_day_of_week_value'];
-    }
-    elseif (isset($view->old_view[0]->old_view[0]->old_view[0]->old_view[0]->old_view[0]->old_view[0]->old_view[0]->old_view[0]->old_view[0]->old_view[0]->old_view[0]->old_view[0]->old_view[0]->old_view[0]->old_view[0]->old_view[0]->exposed_data['field_day_of_week_value'])
-      && $view->old_view[0]->old_view[0]->old_view[0]->old_view[0]->old_view[0]->old_view[0]->old_view[0]->old_view[0]->old_view[0]->old_view[0]->old_view[0]->old_view[0]->old_view[0]->old_view[0]->old_view[0]->old_view[0]->id() == 'parish_finder') {
-      $day = $view->old_view[0]->old_view[0]->old_view[0]->old_view[0]->old_view[0]->old_view[0]->old_view[0]->old_view[0]->old_view[0]->old_view[0]->old_view[0]->old_view[0]->old_view[0]->old_view[0]->old_view[0]->old_view[0]->exposed_data['field_day_of_week_value'];
-    }
-    elseif (isset($view->old_view[0]->old_view[0]->old_view[0]->old_view[0]->old_view[0]->old_view[0]->old_view[0]->old_view[0]->old_view[0]->old_view[0]->old_view[0]->old_view[0]->old_view[0]->old_view[0]->old_view[0]->old_view[0]->old_view[0]->exposed_data['field_day_of_week_value'])
-      && $view->old_view[0]->old_view[0]->old_view[0]->old_view[0]->old_view[0]->old_view[0]->old_view[0]->old_view[0]->old_view[0]->old_view[0]->old_view[0]->old_view[0]->old_view[0]->old_view[0]->old_view[0]->old_view[0]->old_view[0]->id() == 'parish_finder') {
-      $day = $view->old_view[0]->old_view[0]->old_view[0]->old_view[0]->old_view[0]->old_view[0]->old_view[0]->old_view[0]->old_view[0]->old_view[0]->old_view[0]->old_view[0]->old_view[0]->old_view[0]->old_view[0]->old_view[0]->old_view[0]->exposed_data['field_day_of_week_value'];
-    }
-    elseif (isset($view->old_view[0]->old_view[0]->old_view[0]->old_view[0]->old_view[0]->old_view[0]->old_view[0]->old_view[0]->old_view[0]->old_view[0]->old_view[0]->old_view[0]->old_view[0]->old_view[0]->old_view[0]->old_view[0]->old_view[0]->old_view[0]->exposed_data['field_day_of_week_value'])
-      && $view->old_view[0]->old_view[0]->old_view[0]->old_view[0]->old_view[0]->old_view[0]->old_view[0]->old_view[0]->old_view[0]->old_view[0]->old_view[0]->old_view[0]->old_view[0]->old_view[0]->old_view[0]->old_view[0]->old_view[0]->old_view[0]->id() == 'parish_finder') {
-      $day = $view->old_view[0]->old_view[0]->old_view[0]->old_view[0]->old_view[0]->old_view[0]->old_view[0]->old_view[0]->old_view[0]->old_view[0]->old_view[0]->old_view[0]->old_view[0]->old_view[0]->old_view[0]->old_view[0]->old_view[0]->old_view[0]->exposed_data['field_day_of_week_value'];
-    }
-    elseif (isset($view->old_view[0]->old_view[0]->old_view[0]->old_view[0]->old_view[0]->old_view[0]->old_view[0]->old_view[0]->old_view[0]->old_view[0]->old_view[0]->old_view[0]->old_view[0]->old_view[0]->old_view[0]->old_view[0]->old_view[0]->old_view[0]->old_view[0]->exposed_data['field_day_of_week_value'])
-      && $view->old_view[0]->old_view[0]->old_view[0]->old_view[0]->old_view[0]->old_view[0]->old_view[0]->old_view[0]->old_view[0]->old_view[0]->old_view[0]->old_view[0]->old_view[0]->old_view[0]->old_view[0]->old_view[0]->old_view[0]->old_view[0]->old_view[0]->id() == 'parish_finder') {
-      $day = $view->old_view[0]->old_view[0]->old_view[0]->old_view[0]->old_view[0]->old_view[0]->old_view[0]->old_view[0]->old_view[0]->old_view[0]->old_view[0]->old_view[0]->old_view[0]->old_view[0]->old_view[0]->old_view[0]->old_view[0]->old_view[0]->old_view[0]->exposed_data['field_day_of_week_value'];
-    }
-    elseif (isset($view->old_view[0]->old_view[0]->old_view[0]->old_view[0]->old_view[0]->old_view[0]->old_view[0]->old_view[0]->old_view[0]->old_view[0]->old_view[0]->old_view[0]->old_view[0]->old_view[0]->old_view[0]->old_view[0]->old_view[0]->old_view[0]->old_view[0]->old_view[0]->exposed_data['field_day_of_week_value'])
-      && $view->old_view[0]->old_view[0]->old_view[0]->old_view[0]->old_view[0]->old_view[0]->old_view[0]->old_view[0]->old_view[0]->old_view[0]->old_view[0]->old_view[0]->old_view[0]->old_view[0]->old_view[0]->old_view[0]->old_view[0]->old_view[0]->old_view[0]->old_view[0]->id() == 'parish_finder') {
-      $day = $view->old_view[0]->old_view[0]->old_view[0]->old_view[0]->old_view[0]->old_view[0]->old_view[0]->old_view[0]->old_view[0]->old_view[0]->old_view[0]->old_view[0]->old_view[0]->old_view[0]->old_view[0]->old_view[0]->old_view[0]->old_view[0]->old_view[0]->old_view[0]->exposed_data['field_day_of_week_value'];
-    }
-/*    else {
-      $view = $view->old_view[0];
-      dpm($view->old_view[0]);
-      _find_day_of_week($view);
-    }*/
-
-/*  }
-  if (isset($day)) {
-    return $day;
-  }
-}*/
+}

@@ -5,7 +5,6 @@ dependencies:
   config:
     - diocesan_directory.directory_type.schools
     - field.storage.directory.field_geofield
-    - field.storage.directory.field_geolocation
     - field.storage.directory.field_phone
     - field.storage.directory.field_primary_address
     - field.storage.directory.field_website
@@ -17,7 +16,6 @@ dependencies:
     - leaflet_views
     - link
     - options
-    - parish_school_locator
 _core:
   default_config_hash: shoGO0E-u6gGcE0eqip7W8WsF5y-pFr7vUct1iSoq28
 id: school_finder
@@ -520,13 +518,13 @@ display:
           empty_zero: false
           hide_alter_empty: false
           plugin_id: custom
-        field_geolocation:
-          id: field_geolocation
-          table: directory__field_geolocation
-          field: field_geolocation
+        field_geofield:
+          id: field_geofield
+          table: directory__field_geofield
+          field: field_geofield
           relationship: none
           group_type: group
-          admin_label: 'School Map'
+          admin_label: ''
           label: ''
           exclude: false
           alter:
@@ -568,10 +566,36 @@ display:
           hide_empty: false
           empty_zero: false
           hide_alter_empty: true
-          click_sort_column: ''
-          type: leaflet_geolocation_field_formatter
-          settings: {  }
-          group_column: entity_id
+          click_sort_column: value
+          type: leaflet_formatter_default
+          settings:
+            multiple_map: 0
+            popup: 0
+            popup_content: ''
+            leaflet_map: 'OSM Mapnik'
+            height: '300'
+            hide_empty_map: 0
+            map_position:
+              force: 0
+              zoom: '15'
+              minZoom: '1'
+              maxZoom: '18'
+            icon:
+              iconUrl: ''
+              shadowUrl: ''
+              iconSize:
+                x: ''
+                'y': ''
+              iconAnchor:
+                x: ''
+                'y': ''
+              shadowAnchor:
+                x: ''
+                'y': ''
+              popupAnchor:
+                x: ''
+                'y': ''
+          group_column: value
           group_columns: {  }
           group_rows: true
           delta_limit: 0
@@ -581,7 +605,7 @@ display:
           multi_type: separator
           separator: ', '
           field_api_classes: false
-          plugin_id: geolocation_field
+          plugin_id: field
       filters:
         type:
           id: type
@@ -858,7 +882,7 @@ display:
         - url
         - url.query_args
       tags:
-        - 'config:field.storage.directory.field_geolocation'
+        - 'config:field.storage.directory.field_geofield'
         - 'config:field.storage.directory.field_phone'
         - 'config:field.storage.directory.field_primary_address'
         - 'config:field.storage.directory.field_website'
@@ -894,7 +918,7 @@ display:
         - url
         - url.query_args
       tags:
-        - 'config:field.storage.directory.field_geolocation'
+        - 'config:field.storage.directory.field_geofield'
         - 'config:field.storage.directory.field_phone'
         - 'config:field.storage.directory.field_primary_address'
         - 'config:field.storage.directory.field_website'
