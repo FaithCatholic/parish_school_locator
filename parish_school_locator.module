@@ -271,14 +271,32 @@ function parish_school_locator_views_pre_render(\Drupal\views\ViewExecutable $vi
  * Implements hook_preprocess().
  */
 function parish_school_locator_preprocess_views_view_field(&$variables) {
+
+  // Parish Mass Times view
   if ($variables['view']->storage->id() == 'parish_mass_times') {
+
+    // Get current page URI
     $current_uri = \Drupal::request()->getRequestUri();
+
+    // Create array from URI parts
     $parts = parse_url($current_uri);
+
+    // Check if there are URI parameters
     if (isset($parts['query'])) {
+
+      // Split URI parameters into array
       parse_str($parts['query'], $query);
+
+      // Check if day of week parameter is present
       if (isset($query['field_day_of_week_value'])) {
+
+        // Get day of week parameter value
         $day = $query['field_day_of_week_value'];
+
+        // Check if row's day of week value matches URI parameter value
         if ($variables['row']->mass_times__field_day_of_week_field_day_of_week_value != $day) {
+
+          // Hide non-matching rows' output
           unset($variables['output']);
         }
       }
