@@ -1,5 +1,5 @@
 {
-  "name": "tomboone/parish_school_locator",
+  "name": "faithcatholic/parish_school_locator",
   "type": "drupal-module",
   "description": "Find parishes and schools by address, name, and mass time",
   "keywords": ["Drupal"],
