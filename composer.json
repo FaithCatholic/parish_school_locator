@@ -11,10 +11,7 @@
     }
   },
   "require": {
-    "drupal/geocoder": "^2.0",
-    "drupal/geolocation": "^2.0",
-    "faithcatholic/diocesan_directory": "^1.0",
-    "faithcatholic/mass_times": "^1.0",
-    "drupal/leaflet": "^1.0"
+    "faithcatholic/diocesan_directory": "^2.0",
+    "faithcatholic/mass_times": "^2.0"
   }
 }
