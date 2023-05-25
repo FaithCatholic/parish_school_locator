@@ -296,11 +296,15 @@ function parish_school_locator_preprocess_views_view_field(&$variables) {
         // Get day of week parameter value
         $day = $query['field_day_of_week_value'];
 
-        // Check if row's day of week value matches URI parameter value
-        if ($variables['row']->mass_times__field_day_of_week_field_day_of_week_value != $day) {
+        // Make sure day of week parameter is not set to 'All'
+        if ($day != 'All') {
 
-          // Hide non-matching rows' output
-          unset($variables['output']);
+          // Check if row's day of week value matches URI parameter value
+          if ($variables['row']->mass_times__field_day_of_week_field_day_of_week_value != $day) {
+
+            // Hide non-matching rows' output
+            unset($variables['output']);
+          }
         }
       }
     }
