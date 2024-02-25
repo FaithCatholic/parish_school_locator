@@ -1,8 +1,7 @@
 name: 'Parish and School Locator'
 type: module
 description: 'Find parishes and schools by address, name, and mass time'
-core: 8.x
-core_version_requirement: ^8 || ^9
+core_version_requirement: ^8 || ^9 || ^10
 package: 'Custom'
 dependencies:
   - geocoder_field
